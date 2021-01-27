@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -rdynamic CMakeFiles/BNLinux.dir/bnlinux.cpp.o CMakeFiles/BNLinux.dir/clovo.cpp.o CMakeFiles/BNLinux.dir/list.cpp.o CMakeFiles/BNLinux.dir/main.cpp.o CMakeFiles/BNLinux.dir/shift.cpp.o CMakeFiles/BNLinux.dir/sound.cpp.o CMakeFiles/BNLinux.dir/typee.cpp.o CMakeFiles/BNLinux.dir/znak.cpp.o  -o BNLinux -lSM -lICE -lX11 -lXext -lXtst 

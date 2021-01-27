@@ -1,0 +1,3 @@
+/home/dimon/projects/BNLinux/build/CMakeFiles/rebuild_cache.dir
+/home/dimon/projects/BNLinux/build/CMakeFiles/BNLinux.dir
+/home/dimon/projects/BNLinux/build/CMakeFiles/edit_cache.dir
