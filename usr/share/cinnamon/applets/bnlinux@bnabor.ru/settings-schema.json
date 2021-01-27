@@ -1,0 +1,24 @@
+{
+ "font-size" : {
+	"type": "spinbutton",
+	"default" : 16,
+	"min" : 8,
+	"max" : 74,
+	"step" : 1,
+	"units" : "pixels",
+	"description" : "Размер шрифта:",
+	"tooltip" : "Введите размер шрифта в соответствии с стандартом CSS(em ex px %)"
+ },
+ "color" : {
+	"type": "colorchooser",
+	"default" : "blue",
+	"description" : "Цвет текста:",
+	"tooltip" : "Введите цвет текста в соответствии с стандартом CSS"
+ },
+ "background-color" : {
+	"type": "colorchooser",
+	"default" : "yellow",
+	"description" : "Цвет фона:",
+	"tooltip" : "Введите цвет фона в соответствии с стандартом CSS"
+ }
+}
