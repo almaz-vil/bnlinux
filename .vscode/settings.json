@@ -1,0 +1,17 @@
+{
+       "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+	 "go.alternateTools " : {
+        " dlv " : " $ {workspaceFolder} /. vscode / dlv-sudo.sh "
+   },
+   "files.associations": {
+      "type_traits": "cpp",
+      "*.tcc": "cpp",
+      "cstdio": "cpp",
+      "limits": "cpp",
+      "sstream": "cpp",
+      "typeinfo": "cpp",
+      "fstream": "cpp",
+      "cstdlib": "cpp"
+   }
+    
+}

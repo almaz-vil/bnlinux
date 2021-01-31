@@ -20,6 +20,7 @@ class Clovo{
 		int Count();
 		char *alfavid;// = new char[141];
 		void LoadAlfavid();
+		void Upda();
 		std::string clov ="";
 	private:
 		char ENinRus(int ch);

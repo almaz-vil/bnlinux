@@ -15,7 +15,6 @@
 #include <linux/keyboard.h>
 
 
-
 void info(std::string s){
       std::string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \"";
 	  cmdf.append(s);

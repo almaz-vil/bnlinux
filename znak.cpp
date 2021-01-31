@@ -75,7 +75,6 @@ void Znak::Uppad(Clovo *clovo){
     if(this->fBolBukva){
         this->fBolBukva=0;
         this->fBolBukvaListSelect=1;
-        char r[2]={0,0};
         for (int i = 0; i < 140; i++)
         {            
             string ch="";

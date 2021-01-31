@@ -40,7 +40,7 @@ private:
     Znak_ony * znak=nullptr;
      int  orfo;
     std::vector <std::string> listrus;
-    
+    int Find();
 public:
     bnlinux(struct arguments args);
     ~bnlinux();

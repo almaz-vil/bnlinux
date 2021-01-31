@@ -83,3 +83,82 @@ int Clovo::Add(int ch){
 			}
 	return this->Count();
 }
+void Clovo::Upda(){
+	char& chas=this->clov.front();		
+	for (int i = 0; i < 140; i++){            
+		if(chas==this->alfavid[i]){
+        	if ((i>65)&&(i<92)){
+		    chas=this->alfavid[i+32];
+			}
+                switch (i)
+                {
+                case 126: // Ё->ё
+         			chas=this->alfavid[96];
+		        	break;
+                case 123: //Х->х
+                   	chas=this->alfavid[91];
+					break;             
+                case 58: //Ж->ж
+					chas=this->alfavid[59];
+			        break;                
+                case 34: //Э-э
+					chas=this->alfavid[39];
+			        break;                
+                case 62: //Ю->ю
+					chas=this->alfavid[46];
+			        break;
+                case 60: //Б->б
+					chas=this->alfavid[44];
+			        break;
+                }
+           
+		        break;
+            }
+	}
+}		
+/*
+void Clovo::Upda(){
+		
+	   for (int i = 0; i < 140; i++)
+        {            
+            std::string ch="";
+            std::string cha="";
+            char a[2]={0,0};
+            *a=this->clov[0];
+            cha.append(a);
+            char b[2]={0,0};
+            *b=this->alfavid[i];
+             ch.append(b);
+            if (ch==cha){
+        		if ((i>65)&&(i<92)){
+					this->clov.erase(0,1);
+					this->clov.insert(0,1,this->alfavid[i+32]);
+					}
+                switch (i)
+                {
+                case 126: // Ё->ё
+         			this->clov.erase(0,1);
+					this->clov.insert(0,1,this->alfavid[96]);
+                     break;
+                case 123: //Х->х
+                   this->clov.insert(0,1,this->alfavid[91]);
+				   break;             
+                case 58: //Ж->ж
+				   this->clov.insert(0,1,this->alfavid[59]);
+                   break;                
+                case 34: //Э-э
+					this->clov.insert(0,1,this->alfavid[39]);
+                    break;                
+                case 62: //Ю->ю
+					this->clov.insert(0,1,this->alfavid[46]);
+                    break;
+                case 60: //Б->б
+					this->clov.insert(0,1,this->alfavid[44]);
+                    break;
+                }
+           
+		        break;
+            }
+           
+        }
+}*/

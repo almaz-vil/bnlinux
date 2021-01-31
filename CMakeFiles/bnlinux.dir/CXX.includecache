@@ -13,6 +13,8 @@ fstream
 -
 unistd.h
 -
+algorithm
+-
 bnlinux.h
 /home/user/BNLinux/bnlinux.h
 listbox.h

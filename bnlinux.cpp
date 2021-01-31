@@ -9,6 +9,7 @@
 #include <string>
 #include <fstream>
 #include <unistd.h>
+#include <algorithm>
 
 #include "bnlinux.h"
 #ifndef LIST_BOX
@@ -49,18 +50,7 @@ bnlinux::bnlinux(struct arguments args)
       file.close();
       clovo = new Clovo(RUS);
       clovo->LoadAlfavid();
-      if(args.bn)
-		listbox=new ListBox();
-	  else
-	  	listbox=new ListBox_ony();
-	  if(args.znak)
-	    znak = new Znak();
-	  else
-	    znak = new Znak_ony();	  	
-	  if(args.orfo)
-	  	orfo=0;
-	  else 
-		orfo=1;		  	
+      Reshim(args);	  	
 	
 }
 
@@ -79,9 +69,9 @@ void bnlinux::Reshim(struct arguments args){
 	  else
 	    znak = new Znak_ony();	  	
 	  if(args.orfo)
-	  	orfo=0;
+	  	orfo=1;
 	  else 
-		orfo=1;		  	
+		orfo=0;		  	
 	
 }
 
@@ -106,32 +96,41 @@ void bnlinux::Print(int key_char, Lang lang){
 	 }
 	znak->Uppad(clovo);
 	listbox->Clear();
-	int sound_not_clovo=this->orfo;
-	int item_for_exit=0;
-    	
-	for(auto iter = listrus.begin(); iter != listrus.end(); ++iter)
-	{
-	    string string_is_list=*iter;
-		size_t up=string_is_list.find(clovo->clov);
-		if((up!= string::npos)&&(up==0)){
-				string_is_list.erase(string_is_list.end()-1);
-				listbox->Add(string_is_list.c_str());
-             	sound_not_clovo=1;
-				for(auto iter1 = iter; iter1 != listrus.end(); ++iter1)
-      			{
-					string s_is_list=*iter1;
-					s_is_list.erase(s_is_list.end()-1);
-					listbox->Add(s_is_list.c_str());
-					item_for_exit=item_for_exit+1;
-					if (item_for_exit==5)return;
-				}
+	
+	if((!this->Find())){	
+		clovo->Upda();
+		if(!this->Find()){
+			if(this->orfo)
+				if(clovo->Count()>1){
+					system("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
+					info("ОПЕЧАТКА");
+					}
 		}
 	}
-	//Если слово отсутствует в словоре опечатка!
-	if(sound_not_clovo==0)
-    if(clovo->Count()>1){
-      system("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
-      info("ОПЕЧАТКА");
-	 }
 
 }
+
+int bnlinux::Find(){
+	int not_clovo=0;
+	int item_for_exit=0;
+	for(auto iter = listrus.begin(); iter != listrus.end(); ++iter)
+		{
+			string string_is_list=*iter;
+			size_t up=string_is_list.find(clovo->clov);
+			if((up!= string::npos)&&(up==0)){
+					string_is_list.erase(string_is_list.end()-1);
+					listbox->Add(string_is_list.c_str());
+					not_clovo=1;
+					for(auto iter1 = iter; iter1 != listrus.end(); ++iter1)
+					{
+						string s_is_list=*iter1;
+						s_is_list.erase(s_is_list.end()-1);
+						listbox->Add(s_is_list.c_str());
+						item_for_exit=item_for_exit+1;
+						if (item_for_exit==6)return not_clovo;
+					}
+			}
+		}
+	return not_clovo;	
+}
+
