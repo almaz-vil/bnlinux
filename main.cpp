@@ -134,17 +134,18 @@ void process_command_line_arguments(int argc, char **argv)
   int c;
   int option_index;
   
-  while ((c = getopt_long(argc, argv, "bfspzkd:?v", long_options, &option_index)) != -1)
+  while ((c = getopt_long(argc, argv, "rbfspzkd:?v", long_options, &option_index)) != -1)
   {
     switch (c) 
     {
-      case 'b': args.bn  = true;        break;  
-      case 'f': args.orfo = true;       break;
-      case 's': args.sound = true;      break;
-      case 'p': args.shift = true;      break;
-      case 'z': args.znak = true;       break;
-      case 'k': args.kill = true;       break;
-      case 'd': args.device = optarg;   break;
+      case 'r': args.reshim  = true;        break;  
+      case 'b': args.bn  = true;            break;  
+      case 'f': args.orfo = true;           break;
+      case 's': args.sound = true;          break;
+      case 'p': args.shift = true;          break;
+      case 'z': args.znak = true;           break;
+      case 'k': args.kill = true;           break;
+      case 'd': args.device = optarg;       break;
       case '?': usage(); exit(EXIT_SUCCESS);
       case 'v':   fprintf(stderr,"Version:0.0.3\n"); exit(EXIT_SUCCESS);
       default : usage(); exit(EXIT_FAILURE);
@@ -166,6 +167,7 @@ void usage()
 "  -s,\tактивация режима звуковая клавиатура (ЗК)\n"
 "  -p,\tактивация режима залипания <Shift>(ввода знаков ! и т.д.) (SHIFT)\n"
 "  -z,\tактивация режима реакция на .!? (ЗНАК)\n"  
+"  -r,\tВключение переключение режимов без перезапуска"
 "  -k,\tзавершает программу bnlinux\n"
 "  -d,\tустройство ввода\n"
 "  -?,\tэта справка пробнее (man bnlinux)\n"
@@ -321,9 +323,6 @@ void SendKeySignal(int key){
   if(shift_flag) return;
   bnl->Print(key, Rus_or_En());
 }
-
-
-
 
 int input_fd = -1;  // input event device file descriptor; global so that signal_handler() can access it
 
@@ -631,17 +630,25 @@ void log_loop()
         shift->On();		
     		shift_flag=true;		 
         SendKeySignal(12);
-        std::string s="Для выхода нажмите <F12>. Или режимы:";
+        std::string s="Для выхода нажмите <F12>.";
+        if(args.reshim){
+          s.append(" Или режимы:");
           if (args.sound)s.append(" ЗК(выкл)<F6>,");
           else s.append(" ЗК(вкл)<F6>,");
-        if(args.bn)s.append(" БН(выкл)<F5>,");
-        else s.append(" БН(вкл)<F5>,");
-        if(args.znak)s.append(" ЗНАК(выкл)<F9>,");
-        else s.append(" ЗНАК(вкл)<F9>,");
-        if(args.orfo)s.append(" ОРФО(выкл)<F7>,");
-        else s.append(" ОРФО(вкл)<F7>,");
-        if(args.shift)s.append(" SHIFT(выкл)<F8>.  Продолжайте работу <1>..<0>");
-        else s.append(" SHIFT(вкл)<F8>");
+          if(args.bn)s.append(" БН(выкл)<F5>,");
+          else s.append(" БН(вкл)<F5>,");
+          if(args.znak)s.append(" ЗНАК(выкл)<F9>,");
+          else s.append(" ЗНАК(вкл)<F9>,");
+          if(args.orfo)s.append(" ОРФО(выкл)<F7>,");
+          else s.append(" ОРФО(вкл)<F7>,");
+          if(args.shift)s.append(" SHIFT(выкл)<F8>.  Продолжайте работу <1>..<0>");
+          else s.append(" SHIFT(вкл)<F8>");
+        }
+        else{
+          if(args.shift)s.append(" Продолжайте работу <1>..<0>");
+          else s.append("Режим Shift не активен.(параметр -р для активации)");          
+        }
+        
         info(s);}
 		  break;}
 	  case KEY_BACKSPACE:{
@@ -663,7 +670,7 @@ void log_loop()
 		  SendKeySignal(32);
 	  	break;}
     case KEY_F5:{
-      if(shift_flag){
+      if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.bn) args.bn=false;
 	      else args.bn=true;
@@ -673,7 +680,7 @@ void log_loop()
       }
 		  break;}
     case KEY_F6:{
-      if(shift_flag){
+      if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.sound) args.sound=false;
 	      else args.sound=true;
@@ -683,7 +690,7 @@ void log_loop()
        }
 		  break;}
     case KEY_F7:{
-      if(shift_flag){
+      if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.orfo) args.orfo=false;
 	      else args.orfo=true;
@@ -693,7 +700,7 @@ void log_loop()
         }
 		  break;}
     case KEY_F8:{
-      if(shift_flag){
+      if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.shift) args.shift=false;
 	      else args.shift=true;
@@ -703,7 +710,7 @@ void log_loop()
       }
 		  break;}
     case KEY_F9:{
-      if(shift_flag){
+      if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.znak) args.znak=false;
 	      else args.znak=true;

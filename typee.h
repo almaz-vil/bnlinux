@@ -1,6 +1,6 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+02.02.2021
 */
 #ifndef TYPEE
 #define TYPEE
@@ -11,6 +11,7 @@
 #include <X11/Xlib.h>
 struct arguments
 { 
+   bool reshim; //Включение переключение режимов без перезапуска
    bool orfo; //Орфо, реакция на опечатку
    bool znak; //Реакция на знаки припенания
    bool shift; //Залипание Shift
