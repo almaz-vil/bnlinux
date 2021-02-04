@@ -15,10 +15,10 @@
 class ListBox_ony{
 	public:
 		ListBox_ony();
-		virtual void Add(const char *sText);
+		virtual int Add(const char *sText);
 		virtual void Clear();
 		virtual void Select(int n, Clovo *clovo);
-		std::string ClovoPrintUTFS(int n,  std::string sn);
+		virtual std::string ClovoPrintUTFS(int n,  std::string sn);
 
 };
 

@@ -60,7 +60,7 @@ void ListBox::Clear(){
 /**
  * Добавления слова и номера к номера
  */
-void ListBox::Add (const char *sText)
+int ListBox::Add (const char *sText)
 {
 	 string sn="";
 	sn.append(sText);
@@ -75,7 +75,7 @@ void ListBox::Add (const char *sText)
 	cmdf.append(" \" >> /tmp/bnlinux_sv ");
 	system(cmdf.c_str());
 	this->ListClov[this->count_item_label].append(sText);
-	this->count_item_label=this->count_item_label+1;
+	return this->count_item_label++;
 }
 
  void ListBox::Select(int n, Clovo *clovo){

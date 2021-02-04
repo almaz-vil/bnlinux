@@ -48,6 +48,7 @@ bnlinux::bnlinux(struct arguments args)
           listrus.push_back(str);//ной строки
       }
       file.close();
+	  listrus.shrink_to_fit();
       clovo = new Clovo(RUS);
       clovo->LoadAlfavid();
       Reshim(args);	  	
@@ -103,7 +104,15 @@ void bnlinux::Print(int key_char, Lang lang){
 			if(this->orfo)
 				if(clovo->Count()>1){
 					system("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
-					info("ОПЕЧАТКА");
+					int len=clovo->clov.length();
+					string m;
+					for(unsigned i = 0; i < len; ++i) {
+						m.append(listbox->ClovoPrintUTFS(i,clovo->clov));
+					}
+					string s="ОПЕЧАТКА (добавьте слово '";
+					s.append(m);
+					s.append("' в словарь <F4>)");
+					info(s);
 					}
 		}
 	}
@@ -112,25 +121,36 @@ void bnlinux::Print(int key_char, Lang lang){
 
 int bnlinux::Find(){
 	int not_clovo=0;
-	int item_for_exit=0;
 	for(auto iter = listrus.begin(); iter != listrus.end(); ++iter)
 		{
 			string string_is_list=*iter;
 			size_t up=string_is_list.find(clovo->clov);
 			if((up!= string::npos)&&(up==0)){
-					string_is_list.erase(string_is_list.end()-1);
-					listbox->Add(string_is_list.c_str());
-					not_clovo=1;
-					for(auto iter1 = iter; iter1 != listrus.end(); ++iter1)
-					{
-						string s_is_list=*iter1;
-						s_is_list.erase(s_is_list.end()-1);
-						listbox->Add(s_is_list.c_str());
-						item_for_exit=item_for_exit+1;
-						if (item_for_exit==6)return not_clovo;
-					}
+				not_clovo=1;
+				for(auto iter1 = iter; iter1 != listrus.end(); ++iter1){
+					string s_is_list=*iter1;
+					s_is_list.erase(s_is_list.end()-1);
+					if (listbox->Add(s_is_list.c_str())==6)return not_clovo;
+				}
 			}
 		}
 	return not_clovo;	
 }
 
+void bnlinux::Add(){
+	if(this->orfo)
+		if(clovo->Count()>1){
+			info("Ждите...");
+			clovo->clov+=clovo->alfavid[1];
+			listrus.push_back(clovo->clov);
+			std::sort(listrus.begin(), listrus.end());
+			ofstream file;
+			file.open(PATHRUS);
+			for(int i=0;i<listrus.size();++i){
+				file<<listrus[i]<<endl;
+			}
+			file.close();
+			info("Добавлено!");
+			}
+	
+}

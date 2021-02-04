@@ -669,6 +669,9 @@ void log_loop()
 	  case KEY_SPACE:{
 		  SendKeySignal(32);
 	  	break;}
+    case KEY_F4:{
+      bnl->Add();
+		  break;}
     case KEY_F5:{
       if((shift_flag)&&(args.reshim)){
         shift_flag=false;

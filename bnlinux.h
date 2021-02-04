@@ -34,7 +34,6 @@
 class bnlinux: public bnlinux_ony
 {
 private:
-    /* data */
     ListBox_ony * listbox=nullptr;
     Clovo * clovo=nullptr;
     Znak_ony * znak=nullptr;
@@ -46,6 +45,7 @@ public:
     ~bnlinux();
     void Print(int key, Lang lang = RUS) override;
     void Reshim(struct arguments args);
+    void Add() ;
 };
 
 

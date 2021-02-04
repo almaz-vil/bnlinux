@@ -23,10 +23,10 @@ class ListBox:public ListBox_ony
 		Display *display=nullptr;
 	public:
 		ListBox();
-		void Add(const char *sText) override;
+		int Add(const char *sText) override;
 		void Clear() override;
 		void Select(int n, Clovo *clovo) override;
-		std::string ClovoPrintUTFS(int n,  std::string sn);
+		std::string ClovoPrintUTFS(int n,  std::string sn) override;
 };
 
 #endif

@@ -12,7 +12,9 @@
 #include "typee.h"
 
 #include "listbox_ony.h"
+#ifndef CLOVO
 #include "clovo.h"
+#endif
 #ifndef ZNAK
 #include "znaki.h"
 #endif
@@ -42,9 +44,12 @@ void ListBox_ony::Clear(){
 	system(cmdf.c_str());
 }
 
-void ListBox_ony::Add (const char *sText){
+int ListBox_ony::Add (const char *sText){
 }
 
 void ListBox_ony::Select(int n, Clovo *clovo){
 }
 
+std::string ListBox_ony::ClovoPrintUTFS(int n,  std::string sn){
+
+}
