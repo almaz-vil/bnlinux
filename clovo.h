@@ -17,12 +17,17 @@ class Clovo{
 		void SetLang(Lang lang);
 		void Clear();
 		int Add(int ch);
+		int Add(std::string str);
 		int Count();
 		char *alfavid;// = new char[141];
 		void LoadAlfavid();
 		void Upda();
+		void Add_Probel();
+		bool Probel();
+		void Clear_Probel(bool clear=true);
 		std::string clov ="";
 	private:
+		bool probel=false;
 		char ENinRus(int ch);
 		int nomer = -1;
 		Lang lang = Lang::RUS;

@@ -66,8 +66,12 @@ void Clovo::Clear(){
 	this->clov.clear();
 }
 
+int Clovo::Add(std::string str){
+	this->clov.append(str);
+}
 int Clovo::Add(int ch){
 	if (ch==8){		
+		if(this->probel)this->Clear_Probel(false);
 		if (this->Count())
 			this->clov.erase(this->clov.end()-1);
 		return this->Count();
@@ -79,10 +83,12 @@ int Clovo::Add(int ch){
 		}
 	
 	if (this->lang==RUS) {
+		if(this->probel)this->Clear_Probel();
 		this->clov+=Clovo::alfavid[ch];
-			}
+	}
 	return this->Count();
 }
+
 void Clovo::Upda(){
 	char& chas=this->clov.front();		
 	for (int i = 0; i < 140; i++){            
@@ -115,50 +121,19 @@ void Clovo::Upda(){
 		        break;
             }
 	}
-}		
-/*
-void Clovo::Upda(){
-		
-	   for (int i = 0; i < 140; i++)
-        {            
-            std::string ch="";
-            std::string cha="";
-            char a[2]={0,0};
-            *a=this->clov[0];
-            cha.append(a);
-            char b[2]={0,0};
-            *b=this->alfavid[i];
-             ch.append(b);
-            if (ch==cha){
-        		if ((i>65)&&(i<92)){
-					this->clov.erase(0,1);
-					this->clov.insert(0,1,this->alfavid[i+32]);
-					}
-                switch (i)
-                {
-                case 126: // Ё->ё
-         			this->clov.erase(0,1);
-					this->clov.insert(0,1,this->alfavid[96]);
-                     break;
-                case 123: //Х->х
-                   this->clov.insert(0,1,this->alfavid[91]);
-				   break;             
-                case 58: //Ж->ж
-				   this->clov.insert(0,1,this->alfavid[59]);
-                   break;                
-                case 34: //Э-э
-					this->clov.insert(0,1,this->alfavid[39]);
-                    break;                
-                case 62: //Ю->ю
-					this->clov.insert(0,1,this->alfavid[46]);
-                    break;
-                case 60: //Б->б
-					this->clov.insert(0,1,this->alfavid[44]);
-                    break;
-                }
-           
-		        break;
-            }
-           
-        }
-}*/
+}	
+
+bool Clovo::Probel(){
+	return this->probel;
+}
+
+void Clovo::Add_Probel(){
+	this->clov+=this->alfavid[1];
+	this->probel=true;
+}
+
+void Clovo::Clear_Probel(bool clear){
+	if(clear)
+		this->Clear();
+	this->probel=false;
+}

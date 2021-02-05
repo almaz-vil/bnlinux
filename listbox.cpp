@@ -80,7 +80,7 @@ int ListBox::Add (const char *sText)
 
  void ListBox::Select(int n, Clovo *clovo){
 	 int id= n-48;
-	 if (!((id>-1)&&(id<6))){
+	 if (!((id>-1)&&(id<7))){
 		 this->Clear();
 		 return;
 	 }
@@ -90,6 +90,8 @@ int ListBox::Add (const char *sText)
 	for(unsigned i = clovo->Count(); i < len; ++i) {
 		m.append(ClovoPrintUTFS(i,sn));
 	}
+	clovo->Clear();
+	clovo->Add(sn);
  	//for (int i = 0; i<clovo->Count()+1 ;i++){
 		 key_del(display);
  	//}
@@ -101,6 +103,7 @@ int ListBox::Add (const char *sText)
       cmdf.append("\" |xclip -selection c");
 	key_pavse(cmdf.c_str(), display);
 	this->Clear();//Очистка после пробела.
-	clovo->Clear();
+	clovo->Add_Probel();
+	//clovo->Clear();
 }
 

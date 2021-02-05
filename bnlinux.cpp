@@ -144,6 +144,7 @@ void bnlinux::Add(){
 			clovo->clov+=clovo->alfavid[1];
 			listrus.push_back(clovo->clov);
 			std::sort(listrus.begin(), listrus.end());
+			listrus.shrink_to_fit();
 			ofstream file;
 			file.open(PATHRUS);
 			for(int i=0;i<listrus.size();++i){
