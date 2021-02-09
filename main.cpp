@@ -42,7 +42,7 @@
 #include <signal.h>
 
 #include<iostream>
-
+#include <iostream>
 
 #ifndef TYPEE
 #include "typee.h"
@@ -147,7 +147,7 @@ void process_command_line_arguments(int argc, char **argv)
       case 'k': args.kill = true;           break;
       case 'd': args.device = optarg;       break;
       case '?': usage(); exit(EXIT_SUCCESS);
-      case 'v':   fprintf(stderr,"Version:0.0.3\n"); exit(EXIT_SUCCESS);
+      case 'v':   fprintf(stderr,"Version:0.0.4\n"); exit(EXIT_SUCCESS);
       default : usage(); exit(EXIT_FAILURE);
     }
   } // while
@@ -314,13 +314,16 @@ void Resim(arguments args){
 // Русский язык да или нет
 Lang Rus_or_En()
 {
+  Log("Узнаём текущий язык");	    
   return execute(COMMAND_STR_RUS_EN_STATE).size() >= 2 ? RUS:EN;
  
 }
 // Отправка сигнала номер введенного символа
 void SendKeySignal(int key){
+  Log("Вызов sound->play");	    
 	sound->play(key, Rus_or_En());
   if(shift_flag) return;
+  Log("Вызов bnl->Print");	    
   bnl->Print(key, Rus_or_En());
 }
 
@@ -367,6 +370,7 @@ void create_PID_file()
 
 void kill_existing_process()
 {
+  Log("Завершение программы");    
   pid_t pid;
   bool via_file = true;
   bool via_pipe = true;
@@ -406,7 +410,7 @@ void set_signal_handling()
   sigaction(SIGCHLD, &act, NULL);
 }
 
-void determine_system_keymap()
+void determine_command_shell_keymap()
 {
   // custom map will be used; erase existing US keymapping
   memset(char_keys,  '\0', sizeof(char_keys));
@@ -478,7 +482,8 @@ void determine_system_keymap()
 void determine_input_device()
 {
   // better be safe than sory: while running other programs, switch user to nobody
-  setegid(65534); seteuid(65534);
+  if(setegid(65534)==-1){return;}
+  if(seteuid(65534)==-1){return;}
   
   // extract input number from /proc/bus/input/devices (I don't know how to do it better. If you have an idea, please let me know.)
   // The compiler automatically concatenates these adjacent strings to a single string.
@@ -515,7 +520,9 @@ void determine_input_device()
   args.device = results[0];  // for now, use only the first found device
   
   // now we reclaim those root privileges
-  seteuid(0); setegid(0);
+  if(setegid(0)==-1){return;}
+  if(seteuid(0)==-1){return;}
+  
 }
 
 bool update_key_state()
@@ -622,13 +629,14 @@ void log_loop()
 {
   while (update_key_state()) {
 	unsigned short scan_code = key_state.event.code;
-	  
 	switch (scan_code) {
 	  case KEY_PAUSE:{
-      if(shift_flag) shift_flag=false;
+      Log("Press: ", scan_code);  
+	    if(shift_flag) {shift_flag=false;Log("Деактивирован флажок shift_flag");}
 	    else{ 
         shift->On();		
     		shift_flag=true;		 
+        Log("Активирован флажок shift_flag");
         SendKeySignal(12);
         std::string s="Для выхода нажмите <F12>.";
         if(args.reshim){
@@ -660,6 +668,9 @@ void log_loop()
 	  case KEY_ESC:{
 		  SendKeySignal(27);
       break;}
+    case KEY_F10:{
+      break;
+    }  
 	  case KEY_TAB:{
 		  SendKeySignal(9);
 	  	break;}
@@ -670,46 +681,51 @@ void log_loop()
 		  SendKeySignal(32);
 	  	break;}
     case KEY_F4:{
-      bnl->Add();
+      Log("Press: ", scan_code);  
+	    bnl->Add();
 		  break;}
     case KEY_F5:{
-      if((shift_flag)&&(args.reshim)){
+      Log("Press: ", scan_code);  
+	    if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.bn) args.bn=false;
 	      else args.bn=true;
         Resim(args);
-        if(args.bn)system("play /opt/bnlinux/local/sound/info/bn_on.wav 2>/dev/null");				
-        else system("play /opt/bnlinux/local/sound/info/bn_off.wav 2>/dev/null");				
+        if(args.bn)command_shell("play /opt/bnlinux/local/sound/info/bn_on.wav 2>/dev/null");				
+        else command_shell("play /opt/bnlinux/local/sound/info/bn_off.wav 2>/dev/null");				
       }
 		  break;}
     case KEY_F6:{
+      Log("Press: ", scan_code);  
       if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.sound) args.sound=false;
 	      else args.sound=true;
         Resim(args);
-        if(args.sound)system("play /opt/bnlinux/local/sound/info/sound_on.wav 2>/dev/null");				
-        else system("play /opt/bnlinux/local/sound/info/sound_off.wav 2>/dev/null");				
+        if(args.sound)command_shell("play /opt/bnlinux/local/sound/info/sound_on.wav 2>/dev/null");				
+        else command_shell("play /opt/bnlinux/local/sound/info/sound_off.wav 2>/dev/null");				
        }
 		  break;}
     case KEY_F7:{
-      if((shift_flag)&&(args.reshim)){
+      Log("Press: ", scan_code);  
+	    if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.orfo) args.orfo=false;
 	      else args.orfo=true;
         Resim(args);
-        if(args.orfo)system("play /opt/bnlinux/local/sound/info/opfo_on.wav 2>/dev/null");				
-        else system("play /opt/bnlinux/local/sound/info/opfo_off.wav 2>/dev/null");				
+        if(args.orfo)command_shell("play /opt/bnlinux/local/sound/info/opfo_on.wav 2>/dev/null");				
+        else command_shell("play /opt/bnlinux/local/sound/info/opfo_off.wav 2>/dev/null");				
         }
 		  break;}
     case KEY_F8:{
+      Log("Press: ", scan_code);  
       if((shift_flag)&&(args.reshim)){
         shift_flag=false;
         if(args.shift) args.shift=false;
 	      else args.shift=true;
         Resim(args);
-        if(args.shift)system("play /opt/bnlinux/local/sound/info/shift_on.wav 2>/dev/null");				
-        else system("play /opt/bnlinux/local/sound/info/shift_off.wav 2>/dev/null");				  
+        if(args.shift)command_shell("play /opt/bnlinux/local/sound/info/shift_on.wav 2>/dev/null");				
+        else command_shell("play /opt/bnlinux/local/sound/info/shift_off.wav 2>/dev/null");				  
       }
 		  break;}
     case KEY_F9:{
@@ -718,13 +734,14 @@ void log_loop()
         if(args.znak) args.znak=false;
 	      else args.znak=true;
         Resim(args);
-        if(args.znak)system("play /opt/bnlinux/local/sound/info/znaki_on.wav 2>/dev/null");				
-        else system("play /opt/bnlinux/local/sound/info/znaki_of.wav 2>/dev/null");				  
+        if(args.znak)command_shell("play /opt/bnlinux/local/sound/info/znaki_on.wav 2>/dev/null");				
+        else command_shell("play /opt/bnlinux/local/sound/info/znaki_of.wav 2>/dev/null");				  
       }
 		  break;}
   	case KEY_F12:{
-      if(shift_flag){
-        system("play /opt/bnlinux/local/sound/info/exit.wav 2>/dev/null");				
+      Log("Press: ", scan_code);  
+	     if(shift_flag){
+        command_shell("play /opt/bnlinux/local/sound/info/exit.wav 2>/dev/null");				
         kill_existing_process(); 
       }
       else
@@ -754,7 +771,7 @@ int main(int argc, char **argv)
   if (!(args.shift)&&!(args.sound)&&!(args.bn)&&!(args.orfo)&&!(args.znak)) {usage(); exit(0);}
   if (geteuid()) error(EXIT_FAILURE, errno, "Для работы необходимы права (sudo)! sudo bnlinux");
  
-  
+  Log("Запуск",true);  
   if(args.shift)
     shift= new Shift();
   else
@@ -773,7 +790,9 @@ int main(int argc, char **argv)
     int noclose = 1;  // don't close streams (stderr used)
     if (daemon(0, noclose) == -1)  // become daemon
       error(EXIT_FAILURE, errno, "Failed to become daemon");
-  seteuid(0); setegid(0);
+  if(setegid(0)==-1){    error(EXIT_FAILURE, errno, "Failed to setegid 0");}
+  if(seteuid(0)==-1){    error(EXIT_FAILURE, errno, "Failed to seteuid 0");}
+  
     create_PID_file();
   
  
@@ -781,7 +800,7 @@ int main(int argc, char **argv)
   //--------------------------------------------------
    set_utf8_locale();
 
-    determine_system_keymap();
+    determine_command_shell_keymap();
   
   if (args.device.empty()) {  // no device given with -d switch
     determine_input_device();

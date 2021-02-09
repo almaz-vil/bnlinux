@@ -197,6 +197,8 @@ signal.h
 -
 iostream
 -
+iostream
+-
 typee.h
 /home/user/BNLinux/typee.h
 bnlinux.h
@@ -348,6 +350,8 @@ linux/keyboard.h
 string
 -
 X11/Xlib.h
+-
+syslog.h
 -
 
 /home/user/BNLinux/znak.cpp

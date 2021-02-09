@@ -16,10 +16,12 @@
 
 
 void info(std::string s){
-      std::string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \"";
-	  cmdf.append(s);
-      cmdf.append(" \" >> /tmp/bnlinux_sv ");
-      system(cmdf.c_str());
+	Log("Вывод информации для апплета в файл /tmp/bnlinux_sv");
+      std::string cmd="truncate -s 0 /tmp/bnlinux_sv; echo -n \"";
+	  cmd.append(s);
+      cmd.append(" \" >> /tmp/bnlinux_sv ");
+    command_shell(cmd);
+	
 }
 void info(arguments args){
 	std::string ino="Активные режимы: ";
@@ -39,39 +41,42 @@ void info(arguments args){
 
 
 void key_del(Display *display){
+		Log("Программное нажатие клавиш для удаления символа");
 		int kc;
  		kc = XKeysymToKeycode(display, 0xff08);
  		XTestFakeKeyEvent(display, kc, True, 0);
  		XFlush(display);
- 		//sleep(1);
 		kc = XKeysymToKeycode(display, 0xff08);
  		XTestFakeKeyEvent(display, kc, False, 0);
  		XFlush(display);
-//		sleep(1);
 		
 	}
 
 void key_pavse(const char *cmdl,  Display *display){      
-	system(cmdl);
-//	sleep(4);
-	
+	if(system(cmdl)<1) {
+//		return;
+	}
+	Log("Программное нажатие клавиш");
  	int kc;
 	kc = XKeysymToKeycode(display, 0xffe4);
 	XTestFakeKeyEvent(display, kc, True, 0);
 	XFlush(display);
-//	sleep(1);
 	kc = XKeysymToKeycode(display, 0x0056);
 	XTestFakeKeyEvent(display, kc, True, 0);
 	XFlush(display);
-//	sleep(1);
 	XTestFakeKeyEvent(display, kc, False, 0);
 	XFlush(display);
-//	sleep(1);
 	kc = XKeysymToKeycode(display, 0xffe4);
 	XTestFakeKeyEvent(display, kc, False, 0);
 	XFlush(display);
-//	sleep(1);
-	
+}
+
+
+void command_shell(std::string s){
+Log("Активация commamd_shell");
+	if(system(s.c_str())<1) {
+//		return;
+	}
 }
 
 void cp1251_to_utf8(char *str, char *res) {
@@ -116,4 +121,18 @@ void cp1251_to_utf8(char *str, char *res) {
 		}
 	}
 	res[j] = '\0';
+}
+
+void Log(const std::string msg, bool error){
+
+openlog("bnlinux",LOG_PERROR | LOG_PID,LOG_USER);
+    syslog(LOG_INFO,"%s", msg.c_str());
+    closelog();
+}
+
+void Log(std::string msg, int key, bool error){
+   msg.append(" Key=<");
+   msg.append(std::to_string(key));
+   msg.append(">");
+   Log(msg);
 }

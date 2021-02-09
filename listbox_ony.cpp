@@ -41,7 +41,7 @@ void ListBox_ony::Clear(){
 
 	 string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
 	cmdf.append(" \" >> /tmp/bnlinux_sv ");
-	system(cmdf.c_str());
+	command_shell(cmdf.c_str());
 }
 
 int ListBox_ony::Add (const char *sText){

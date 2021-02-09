@@ -31,16 +31,18 @@ using namespace std;
 
 
 ListBox::ListBox(){
+	Log("Создание объекта список ListBox");
 	char *display_name=nullptr;
 	if (display_name == NULL) display_name = XDisplayName (NULL) ;
-	if ((display=XOpenDisplay(display_name))==nullptr)	printf("XOpen error!");
+	if ((display=XOpenDisplay(display_name))==nullptr)	Log("XOpen error!");
 }
 
 
 void ListBox::Clear(){
-	 string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
+	Log("Очистка списка слов");
+	string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
 	cmdf.append(" \" >> /tmp/bnlinux_sv ");
-	system(cmdf.c_str());
+	command_shell(cmdf.c_str());
 	for (int i=0; i<this->count_item_label; i++){
 		this->ListClov[i]="";
 	    }
@@ -62,6 +64,7 @@ void ListBox::Clear(){
  */
 int ListBox::Add (const char *sText)
 {
+	Log(" Добавления слова и номера");
 	 string sn="";
 	sn.append(sText);
 	int len=sn.length();
@@ -73,12 +76,13 @@ int ListBox::Add (const char *sText)
 	cmdf.append( to_string(this->count_item_label)+". ");
 	cmdf.append(m);
 	cmdf.append(" \" >> /tmp/bnlinux_sv ");
-	system(cmdf.c_str());
+	command_shell(cmdf.c_str());
 	this->ListClov[this->count_item_label].append(sText);
 	return this->count_item_label++;
 }
 
- void ListBox::Select(int n, Clovo *clovo){
+void ListBox::Select(int n, Clovo *clovo){
+	 Log("Выбор слова из словоря");
 	 int id= n-48;
 	 if (!((id>-1)&&(id<7))){
 		 this->Clear();

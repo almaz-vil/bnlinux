@@ -20,19 +20,24 @@
 using namespace std;
 
 Znak::Znak(){
+    Log("Констуктор класса Знак");
    	char *display_name=nullptr;
 	if (display_name == NULL) display_name = XDisplayName (NULL) ;
 	if ((display=XOpenDisplay(display_name))==nullptr)	printf("XOpen error!");
 }
 
 void Znak::probel(){
+    Log("Активация флажка пробел");
     this->fProbel=1;
 }
 
 void Znak::obrabotka(int chr, Clovo *clovo){
+    Log("Обработка в классе Знак");
     if (((chr==47)||(chr==33)||(chr==38))){
+        Log("Активация флажка большая буква");
         this->fBolBukva=1;
         if(this->fProbel){
+            Log("Деактивация флажка пробел");
             this->fProbel=0;
             key_del(this->display);    
             key_del(this->display);
@@ -42,7 +47,6 @@ void Znak::obrabotka(int chr, Clovo *clovo){
             if(chr==38)cmdf.append("? ");
             cmdf.append("\" |xclip -selection c");
             key_pavse(cmdf.c_str(), display);  
-            this->fBolBukva=1;
         }
         else {
             if (clovo->Count()<2)
@@ -50,14 +54,14 @@ void Znak::obrabotka(int chr, Clovo *clovo){
             string cmdf="echo -n \"";
             cmdf.append(" ");
             cmdf.append("\" |xclip -selection c");
-            key_pavse(cmdf.c_str(), display);  
-            this->fBolBukva=1;
+            key_pavse(cmdf.c_str(), display);       
            
         }
     }
 }
 
 void Znak::bolch(int i, Clovo *clovo){
+    Log("Замена большой буквы строчной");
     char r[2]={0,0};
     *r=clovo->alfavid[i];
     char buf[4];
@@ -70,9 +74,11 @@ void Znak::bolch(int i, Clovo *clovo){
 }
 
 void Znak::Uppad(Clovo *clovo){
+    Log("Преобразование заглавной буквы строчной. ");
     this->fProbel=0;
-        
+    Log("Деактивация флажка пробел");    
     if(this->fBolBukva){
+        Log("Деактивация флажка большая буква");
         this->fBolBukva=0;
         this->fBolBukvaListSelect=1;
         for (int i = 0; i < 140; i++)

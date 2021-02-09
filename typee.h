@@ -5,10 +5,10 @@
 #ifndef TYPEE
 #define TYPEE
 
-
-
 #include <string>
 #include <X11/Xlib.h>
+#include <syslog.h>
+
 struct arguments
 { 
    bool reshim; //Включение переключение режимов без перезапуска
@@ -26,9 +26,14 @@ struct arguments
 };
 enum Lang {RUS, EN};
 void info(std::string s);
+void command_shell(std::string s);
 void info(arguments args);
 void key_del(Display *display);
 void key_pavse(const char *cmdl,  Display *display);
 void cp1251_to_utf8(char *str, char *res);
+
+void Log(const std::string msg, bool error=false);
+void Log(std::string msg, int key, bool error=false);
+
 
 #endif

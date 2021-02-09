@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 2.6)
 project(bnlinux)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
+
 file(GLOB SOURCES
     *.h
     *.cpp

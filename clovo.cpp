@@ -34,6 +34,7 @@ using namespace std;
 
 
 void  Clovo::LoadAlfavid(){
+	Log("Загрузка файла алфавита");
 	Clovo::alfavid = new char[141];
 	 ifstream file(PATHRUSALFAVIT);//создаем объект потока istream  по имени file
 		if(!file.is_open()) {
@@ -50,27 +51,33 @@ void  Clovo::LoadAlfavid(){
 
 
 Clovo::Clovo(Lang lang){
+	Log("Конструктор класса Clovo");
 	this->lang=lang;
 	
 }
 
 void Clovo::SetLang(Lang lang){
+	Log("Язык ввода изменилься");
 	this->lang=lang;
 }
 
 int Clovo::Count(){
+	Log("Возврат количества символов в слове");
 	return this->clov.length();
 }
 
 void Clovo::Clear(){
+	Log("Очистка слова");
 	this->clov.clear();
 }
 
 int Clovo::Add(std::string str){
+	Log(" Добавления слова к слову");
 	this->clov.append(str);
 }
 int Clovo::Add(int ch){
 	if (ch==8){		
+		Log("Удаление символа с конца слова");
 		if(this->probel)this->Clear_Probel(false);
 		if (this->Count())
 			this->clov.erase(this->clov.end()-1);
@@ -83,6 +90,7 @@ int Clovo::Add(int ch){
 		}
 	
 	if (this->lang==RUS) {
+		Log(" Добавления символа в слово");
 		if(this->probel)this->Clear_Probel();
 		this->clov+=Clovo::alfavid[ch];
 	}
@@ -90,6 +98,7 @@ int Clovo::Add(int ch){
 }
 
 void Clovo::Upda(){
+	Log("Изменение регистра с Заглавного на строчные");
 	char& chas=this->clov.front();		
 	for (int i = 0; i < 140; i++){            
 		if(chas==this->alfavid[i]){
@@ -124,15 +133,18 @@ void Clovo::Upda(){
 }	
 
 bool Clovo::Probel(){
+	Log("Запрос  пробела");
 	return this->probel;
 }
 
 void Clovo::Add_Probel(){
+	Log(" Добавления пробела в слово");
 	this->clov+=this->alfavid[1];
 	this->probel=true;
 }
 
 void Clovo::Clear_Probel(bool clear){
+	Log("Пробел отключение");
 	if(clear)
 		this->Clear();
 	this->probel=false;

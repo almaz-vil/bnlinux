@@ -1,0 +1,67 @@
+[
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/bnlinux.cpp.o -c /home/user/BNLinux/bnlinux.cpp",
+  "file": "/home/user/BNLinux/bnlinux.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/bnlinux_ony.cpp.o -c /home/user/BNLinux/bnlinux_ony.cpp",
+  "file": "/home/user/BNLinux/bnlinux_ony.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/clovo.cpp.o -c /home/user/BNLinux/clovo.cpp",
+  "file": "/home/user/BNLinux/clovo.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/listbox.cpp.o -c /home/user/BNLinux/listbox.cpp",
+  "file": "/home/user/BNLinux/listbox.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/listbox_ony.cpp.o -c /home/user/BNLinux/listbox_ony.cpp",
+  "file": "/home/user/BNLinux/listbox_ony.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/main.cpp.o -c /home/user/BNLinux/main.cpp",
+  "file": "/home/user/BNLinux/main.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/shift.cpp.o -c /home/user/BNLinux/shift.cpp",
+  "file": "/home/user/BNLinux/shift.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/shift_ony.cpp.o -c /home/user/BNLinux/shift_ony.cpp",
+  "file": "/home/user/BNLinux/shift_ony.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/sound.cpp.o -c /home/user/BNLinux/sound.cpp",
+  "file": "/home/user/BNLinux/sound.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/sound_ony.cpp.o -c /home/user/BNLinux/sound_ony.cpp",
+  "file": "/home/user/BNLinux/sound_ony.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/typee.cpp.o -c /home/user/BNLinux/typee.cpp",
+  "file": "/home/user/BNLinux/typee.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/znak.cpp.o -c /home/user/BNLinux/znak.cpp",
+  "file": "/home/user/BNLinux/znak.cpp"
+},
+{
+  "directory": "/home/user/BNLinux",
+  "command": "/usr/bin/c++    -O3 -DNDEBUG   -o CMakeFiles/bnlinux.dir/znaki_ony.cpp.o -c /home/user/BNLinux/znaki_ony.cpp",
+  "file": "/home/user/BNLinux/znaki_ony.cpp"
+}
+]

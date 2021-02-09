@@ -40,16 +40,18 @@ using namespace std;
 
 bnlinux::bnlinux(struct arguments args)
 {    
-      ifstream file(PATHRUS);//создаем объект потока istream  по имени file
-      string str;         //переменная стринг для строки
-      while(getline(file,str)) //getline(istream & is, string &s,char c='\n'),читает из потока is, в строку s пока
-      {                        //не встретит символ c (без этого символа до новой строки)
-                              // возвращает свой объект istream, в условии проверяется состояние iostate флагa, значение этого флага будет ложным, если достигнет конца файла, или будет ошибка ввода или читаемого типа
-          listrus.push_back(str);//ной строки
+	  Log("Загрузка словаря");
+      ifstream file(PATHRUS);
+      string str;        
+      while(getline(file,str)) 
+      {                      
+                             
+          listrus.push_back(str);
       }
       file.close();
 	  listrus.shrink_to_fit();
-      clovo = new Clovo(RUS);
+      Log("Словарь загружен");
+	  clovo = new Clovo(RUS);
       clovo->LoadAlfavid();
       Reshim(args);	  	
 	
@@ -61,6 +63,7 @@ bnlinux::~bnlinux()
 }
 
 void bnlinux::Reshim(struct arguments args){
+	  Log("Выбор режимов работы");
 	  if(args.bn)
 		listbox=new ListBox();
 	  else
@@ -70,19 +73,22 @@ void bnlinux::Reshim(struct arguments args){
 	  else
 	    znak = new Znak_ony();	  	
 	  if(args.orfo)
-	  	orfo=1;
+	  	{orfo=1;		Log("ОРФО режим включён");}
 	  else 
-		orfo=0;		  	
+		{orfo=0;		  	Log("ОРФО режим отключён");}
 	
 }
 
 void bnlinux::Print(int key_char, Lang lang){
 	if(lang==EN){
+	  Log("Символ английкого языка");
 	  listbox->Clear();
-	 return;
+	  return;
 	}
 	if (clovo->Count())
+		Log("Есть символы в слове clovo");
 		if ((key_char>47)&&(key_char<58)) {
+			Log("Символ от 47 до 58, выбор слова из словоря");
 			znak->probel();
 			listbox->Select(key_char, clovo);
 			return;
@@ -92,6 +98,7 @@ void bnlinux::Print(int key_char, Lang lang){
 	int nomer=clovo->Add(key_char);
 	
 	if (nomer<1){
+		Log("Очистка nomer=", nomer);
 		listbox->Clear();
 	 	return;
 	 }
@@ -99,11 +106,13 @@ void bnlinux::Print(int key_char, Lang lang){
 	listbox->Clear();
 	
 	if((!this->Find())){	
+		Log("(1)В словаре нет слова");
 		clovo->Upda();
 		if(!this->Find()){
+			Log("(2)В словаре нет слова");
 			if(this->orfo)
 				if(clovo->Count()>1){
-					system("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
+					command_shell("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
 					int len=clovo->clov.length();
 					string m;
 					for(unsigned i = 0; i < len; ++i) {
@@ -120,6 +129,7 @@ void bnlinux::Print(int key_char, Lang lang){
 }
 
 int bnlinux::Find(){
+	Log("Поиск слова в словаре");
 	int not_clovo=0;
 	for(auto iter = listrus.begin(); iter != listrus.end(); ++iter)
 		{
@@ -138,8 +148,10 @@ int bnlinux::Find(){
 }
 
 void bnlinux::Add(){
+	Log("Добавление словарь");
 	if(this->orfo)
 		if(clovo->Count()>1){
+			Log("Слово можно добавлять");
 			info("Ждите...");
 			clovo->clov+=clovo->alfavid[1];
 			listrus.push_back(clovo->clov);
@@ -152,6 +164,7 @@ void bnlinux::Add(){
 			}
 			file.close();
 			info("Добавлено!");
+			Log("Слово добавил");
 			}
 	
 }
