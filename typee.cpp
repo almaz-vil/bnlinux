@@ -6,6 +6,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
+#include <sys/time.h>
+#include <sys/times.h>
+#include <sstream>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
@@ -77,6 +81,7 @@ Log("Активация commamd_shell");
 	if(system(s.c_str())<1) {
 //		return;
 	}
+	Log("ДеактивацияАктивация commamd_shell");
 }
 
 void cp1251_to_utf8(char *str, char *res) {
@@ -123,10 +128,42 @@ void cp1251_to_utf8(char *str, char *res) {
 	res[j] = '\0';
 }
 
-void Log(const std::string msg, bool error){
-
+static double U_CPU=0, S_CPU=0, ClockTime=0;
+static long CLOCK;
+void Log(std::string msg, bool error){
+struct timeval tv;
+gettimeofday(&tv,NULL);
+const time_t* t=&tv.tv_sec;
+struct tm *timefs=localtime(t);
+struct tm gm;
+gm=*timefs;
+struct tms tsmm;
+clock_t clockTime;
+static long clockTicks=0;
+if (clockTicks==0)
+{
+	clockTicks = sysconf(_SC_CLK_TCK);
+}
+clockTime=clock();
+times(&tsmm);
+std::stringstream ss;
+ss << msg<<" "<<gm.tm_hour<<":"<<gm.tm_min<<":"<<gm.tm_sec;
+std::string strResult = ss.str();
+double CT=(double)clockTime/CLOCKS_PER_SEC;
+double CTR=CT-ClockTime;
+ClockTime=CT;
+double U_CP=(double)tsmm.tms_utime/clockTicks;
+double U_CPUR=U_CP-U_CPU;
+U_CPU=U_CP;
+double S_CP=(double)tsmm.tms_stime/clockTicks;
+double S_CPSR=S_CP-S_CPU;
+S_CPU=S_CP;
+long CTCLOK=(long)clockTime;
+long CTCLOKR=CTCLOK-CLOCK;
+CLOCK=CTCLOK;
 openlog("bnlinux",LOG_PERROR | LOG_PID,LOG_USER);
-    syslog(LOG_INFO,"%s", msg.c_str());
+    syslog(LOG_INFO,"\n%s\n\n\tclock=%ld\t(fun=%ld) per-sec(%.6f secs)\t(fun=%.6f secs)\n\tU_CPU: %.6f\t(fun=%.6f secs)\tsystem CPU: %.6f\t(fun=%.6f secs)", strResult.c_str(),
+	CTCLOK,CTCLOKR,CT,CTR,U_CP,U_CPUR,S_CP,S_CPSR);
     closelog();
 }
 

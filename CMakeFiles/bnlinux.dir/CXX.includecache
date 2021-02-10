@@ -333,6 +333,14 @@ stdlib.h
 -
 unistd.h
 -
+time.h
+-
+sys/time.h
+-
+sys/times.h
+-
+sstream
+-
 X11/Xlib.h
 -
 X11/Xutil.h

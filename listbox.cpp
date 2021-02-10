@@ -39,6 +39,7 @@ ListBox::ListBox(){
 
 
 void ListBox::Clear(){
+	
 	Log("Очистка списка слов");
 	string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
 	cmdf.append(" \" >> /tmp/bnlinux_sv ");
