@@ -27,7 +27,7 @@ void Znak_ony::obrabotka(int chr, Clovo *clovo){
 
 }
 
-
+//**Большая буква 
 void Znak_ony::Uppad(Clovo *clovo){
     
  

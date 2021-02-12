@@ -75,31 +75,34 @@ int Clovo::Add(std::string str){
 	Log(" Добавления слова к слову");
 	this->clov.append(str);
 }
-int Clovo::Add(int ch){
+
+bool Clovo::Add(int ch){
 	if (ch==8){		
 		Log("Удаление символа с конца слова");
 		if(this->probel)this->Clear_Probel(false);
 		if (this->Count())
 			this->clov.erase(this->clov.end()-1);
-		return this->Count();
+		return this->Count()<1?true:false;
 	}
 	//     								              Ф         Я          ф         я         х          Х        ъ          Ъ        Ж           ж        Э         э         Б         б         Ю          ю
-	if ((!(((ch>64)&&(ch<91))||((ch>96)&&(ch<123))||(ch==123)||(ch==91)||(ch==125)||(ch==93)||(ch==58)||(ch==59)||(ch==34)||(ch==39)||(ch==60)||(ch==44)||(ch==62)||(ch==46)||(ch==126)||(ch==96)))){
+	if ((!(((ch>64)&&(ch<91))||((ch>96)&&(ch<123))||(ch==123)||(ch==91)||(ch==125)||(ch==93)||(ch==58)||(ch==59)||(ch==34)||(ch==39)||(ch==60)||(ch==44)||(ch==62)||(ch==46)||(ch==126)||(ch==45)||(ch==96)))){
 		this->Clear();
-		return this->nomer;
+		return this->nomer<1?true:false;
 		}
 	
 	if (this->lang==RUS) {
 		Log(" Добавления символа в слово");
-		if(this->probel)this->Clear_Probel();
+		if(this->probel)
+			this->Clear_Probel();
 		this->clov+=Clovo::alfavid[ch];
 	}
-	return this->Count();
+	return this->Count()<1?true:false;
 }
 
 void Clovo::Upda(){
+	
 	Log("Изменение регистра с Заглавного на строчные");
-	char& chas=this->clov.front();		
+	char& chas=this->clov.back();		
 	for (int i = 0; i < 140; i++){            
 		if(chas==this->alfavid[i]){
         	if ((i>65)&&(i<92)){
@@ -136,7 +139,7 @@ bool Clovo::Probel(){
 	Log("Запрос  пробела");
 	return this->probel;
 }
-
+/**/
 void Clovo::Add_Probel(){
 	Log(" Добавления пробела в слово");
 	this->clov+=this->alfavid[1];

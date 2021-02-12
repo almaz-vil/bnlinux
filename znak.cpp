@@ -25,7 +25,7 @@ Znak::Znak(){
 	if (display_name == NULL) display_name = XDisplayName (NULL) ;
 	if ((display=XOpenDisplay(display_name))==nullptr)	printf("XOpen error!");
 }
-
+/*Активация флажка пробел*/
 void Znak::probel(){
     Log("Активация флажка пробел");
     this->fProbel=1;
@@ -54,8 +54,7 @@ void Znak::obrabotka(int chr, Clovo *clovo){
             string cmdf="echo -n \"";
             cmdf.append(" ");
             cmdf.append("\" |xclip -selection c");
-            key_pavse(cmdf.c_str(), display);       
-           
+            key_pavse(cmdf.c_str(), display);                
         }
     }
 }
@@ -74,7 +73,7 @@ void Znak::bolch(int i, Clovo *clovo){
 }
 
 void Znak::Uppad(Clovo *clovo){
-    Log("Преобразование заглавной буквы строчной. ");
+    Log1("Преобразование заглавной буквы строчной. ");
     this->fProbel=0;
     Log("Деактивация флажка пробел");    
     if(this->fBolBukva){

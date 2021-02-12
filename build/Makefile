@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/dimon/projects/BNLinux
+CMAKE_SOURCE_DIR = /home/user/BNLinux
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/dimon/projects/BNLinux/build
+CMAKE_BINARY_DIR = /home/user/BNLinux/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dimon/projects/BNLinux/build/CMakeFiles /home/dimon/projects/BNLinux/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/user/BNLinux/build/CMakeFiles /home/user/BNLinux/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dimon/projects/BNLinux/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/user/BNLinux/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named BNLinux
+# Target rules for targets named bnlinux
 
 # Build rule for target.
-BNLinux: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 BNLinux
-.PHONY : BNLinux
+bnlinux: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bnlinux
+.PHONY : bnlinux
 
 # fast build rule for target.
-BNLinux/fast:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/build
-.PHONY : BNLinux/fast
+bnlinux/fast:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/build
+.PHONY : bnlinux/fast
 
 bnlinux.o: bnlinux.cpp.o
 
@@ -129,7 +129,7 @@ bnlinux.o: bnlinux.cpp.o
 
 # target to build an object file
 bnlinux.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/bnlinux.cpp.o
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/bnlinux.cpp.o
 .PHONY : bnlinux.cpp.o
 
 bnlinux.i: bnlinux.cpp.i
@@ -138,7 +138,7 @@ bnlinux.i: bnlinux.cpp.i
 
 # target to preprocess a source file
 bnlinux.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/bnlinux.cpp.i
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/bnlinux.cpp.i
 .PHONY : bnlinux.cpp.i
 
 bnlinux.s: bnlinux.cpp.s
@@ -147,8 +147,35 @@ bnlinux.s: bnlinux.cpp.s
 
 # target to generate assembly for a file
 bnlinux.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/bnlinux.cpp.s
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/bnlinux.cpp.s
 .PHONY : bnlinux.cpp.s
+
+bnlinux_ony.o: bnlinux_ony.cpp.o
+
+.PHONY : bnlinux_ony.o
+
+# target to build an object file
+bnlinux_ony.cpp.o:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/bnlinux_ony.cpp.o
+.PHONY : bnlinux_ony.cpp.o
+
+bnlinux_ony.i: bnlinux_ony.cpp.i
+
+.PHONY : bnlinux_ony.i
+
+# target to preprocess a source file
+bnlinux_ony.cpp.i:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/bnlinux_ony.cpp.i
+.PHONY : bnlinux_ony.cpp.i
+
+bnlinux_ony.s: bnlinux_ony.cpp.s
+
+.PHONY : bnlinux_ony.s
+
+# target to generate assembly for a file
+bnlinux_ony.cpp.s:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/bnlinux_ony.cpp.s
+.PHONY : bnlinux_ony.cpp.s
 
 clovo.o: clovo.cpp.o
 
@@ -156,7 +183,7 @@ clovo.o: clovo.cpp.o
 
 # target to build an object file
 clovo.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/clovo.cpp.o
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/clovo.cpp.o
 .PHONY : clovo.cpp.o
 
 clovo.i: clovo.cpp.i
@@ -165,7 +192,7 @@ clovo.i: clovo.cpp.i
 
 # target to preprocess a source file
 clovo.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/clovo.cpp.i
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/clovo.cpp.i
 .PHONY : clovo.cpp.i
 
 clovo.s: clovo.cpp.s
@@ -174,35 +201,62 @@ clovo.s: clovo.cpp.s
 
 # target to generate assembly for a file
 clovo.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/clovo.cpp.s
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/clovo.cpp.s
 .PHONY : clovo.cpp.s
 
-list.o: list.cpp.o
+listbox.o: listbox.cpp.o
 
-.PHONY : list.o
+.PHONY : listbox.o
 
 # target to build an object file
-list.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/list.cpp.o
-.PHONY : list.cpp.o
+listbox.cpp.o:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/listbox.cpp.o
+.PHONY : listbox.cpp.o
 
-list.i: list.cpp.i
+listbox.i: listbox.cpp.i
 
-.PHONY : list.i
+.PHONY : listbox.i
 
 # target to preprocess a source file
-list.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/list.cpp.i
-.PHONY : list.cpp.i
+listbox.cpp.i:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/listbox.cpp.i
+.PHONY : listbox.cpp.i
 
-list.s: list.cpp.s
+listbox.s: listbox.cpp.s
 
-.PHONY : list.s
+.PHONY : listbox.s
 
 # target to generate assembly for a file
-list.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/list.cpp.s
-.PHONY : list.cpp.s
+listbox.cpp.s:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/listbox.cpp.s
+.PHONY : listbox.cpp.s
+
+listbox_ony.o: listbox_ony.cpp.o
+
+.PHONY : listbox_ony.o
+
+# target to build an object file
+listbox_ony.cpp.o:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/listbox_ony.cpp.o
+.PHONY : listbox_ony.cpp.o
+
+listbox_ony.i: listbox_ony.cpp.i
+
+.PHONY : listbox_ony.i
+
+# target to preprocess a source file
+listbox_ony.cpp.i:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/listbox_ony.cpp.i
+.PHONY : listbox_ony.cpp.i
+
+listbox_ony.s: listbox_ony.cpp.s
+
+.PHONY : listbox_ony.s
+
+# target to generate assembly for a file
+listbox_ony.cpp.s:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/listbox_ony.cpp.s
+.PHONY : listbox_ony.cpp.s
 
 main.o: main.cpp.o
 
@@ -210,7 +264,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -219,7 +273,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -228,7 +282,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 shift.o: shift.cpp.o
@@ -237,7 +291,7 @@ shift.o: shift.cpp.o
 
 # target to build an object file
 shift.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/shift.cpp.o
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/shift.cpp.o
 .PHONY : shift.cpp.o
 
 shift.i: shift.cpp.i
@@ -246,7 +300,7 @@ shift.i: shift.cpp.i
 
 # target to preprocess a source file
 shift.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/shift.cpp.i
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/shift.cpp.i
 .PHONY : shift.cpp.i
 
 shift.s: shift.cpp.s
@@ -255,8 +309,35 @@ shift.s: shift.cpp.s
 
 # target to generate assembly for a file
 shift.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/shift.cpp.s
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/shift.cpp.s
 .PHONY : shift.cpp.s
+
+shift_ony.o: shift_ony.cpp.o
+
+.PHONY : shift_ony.o
+
+# target to build an object file
+shift_ony.cpp.o:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/shift_ony.cpp.o
+.PHONY : shift_ony.cpp.o
+
+shift_ony.i: shift_ony.cpp.i
+
+.PHONY : shift_ony.i
+
+# target to preprocess a source file
+shift_ony.cpp.i:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/shift_ony.cpp.i
+.PHONY : shift_ony.cpp.i
+
+shift_ony.s: shift_ony.cpp.s
+
+.PHONY : shift_ony.s
+
+# target to generate assembly for a file
+shift_ony.cpp.s:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/shift_ony.cpp.s
+.PHONY : shift_ony.cpp.s
 
 sound.o: sound.cpp.o
 
@@ -264,7 +345,7 @@ sound.o: sound.cpp.o
 
 # target to build an object file
 sound.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/sound.cpp.o
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/sound.cpp.o
 .PHONY : sound.cpp.o
 
 sound.i: sound.cpp.i
@@ -273,7 +354,7 @@ sound.i: sound.cpp.i
 
 # target to preprocess a source file
 sound.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/sound.cpp.i
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/sound.cpp.i
 .PHONY : sound.cpp.i
 
 sound.s: sound.cpp.s
@@ -282,8 +363,35 @@ sound.s: sound.cpp.s
 
 # target to generate assembly for a file
 sound.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/sound.cpp.s
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/sound.cpp.s
 .PHONY : sound.cpp.s
+
+sound_ony.o: sound_ony.cpp.o
+
+.PHONY : sound_ony.o
+
+# target to build an object file
+sound_ony.cpp.o:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/sound_ony.cpp.o
+.PHONY : sound_ony.cpp.o
+
+sound_ony.i: sound_ony.cpp.i
+
+.PHONY : sound_ony.i
+
+# target to preprocess a source file
+sound_ony.cpp.i:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/sound_ony.cpp.i
+.PHONY : sound_ony.cpp.i
+
+sound_ony.s: sound_ony.cpp.s
+
+.PHONY : sound_ony.s
+
+# target to generate assembly for a file
+sound_ony.cpp.s:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/sound_ony.cpp.s
+.PHONY : sound_ony.cpp.s
 
 typee.o: typee.cpp.o
 
@@ -291,7 +399,7 @@ typee.o: typee.cpp.o
 
 # target to build an object file
 typee.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/typee.cpp.o
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/typee.cpp.o
 .PHONY : typee.cpp.o
 
 typee.i: typee.cpp.i
@@ -300,7 +408,7 @@ typee.i: typee.cpp.i
 
 # target to preprocess a source file
 typee.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/typee.cpp.i
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/typee.cpp.i
 .PHONY : typee.cpp.i
 
 typee.s: typee.cpp.s
@@ -309,7 +417,7 @@ typee.s: typee.cpp.s
 
 # target to generate assembly for a file
 typee.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/typee.cpp.s
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/typee.cpp.s
 .PHONY : typee.cpp.s
 
 znak.o: znak.cpp.o
@@ -318,7 +426,7 @@ znak.o: znak.cpp.o
 
 # target to build an object file
 znak.cpp.o:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/znak.cpp.o
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/znak.cpp.o
 .PHONY : znak.cpp.o
 
 znak.i: znak.cpp.i
@@ -327,7 +435,7 @@ znak.i: znak.cpp.i
 
 # target to preprocess a source file
 znak.cpp.i:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/znak.cpp.i
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/znak.cpp.i
 .PHONY : znak.cpp.i
 
 znak.s: znak.cpp.s
@@ -336,8 +444,35 @@ znak.s: znak.cpp.s
 
 # target to generate assembly for a file
 znak.cpp.s:
-	$(MAKE) -f CMakeFiles/BNLinux.dir/build.make CMakeFiles/BNLinux.dir/znak.cpp.s
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/znak.cpp.s
 .PHONY : znak.cpp.s
+
+znaki_ony.o: znaki_ony.cpp.o
+
+.PHONY : znaki_ony.o
+
+# target to build an object file
+znaki_ony.cpp.o:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/znaki_ony.cpp.o
+.PHONY : znaki_ony.cpp.o
+
+znaki_ony.i: znaki_ony.cpp.i
+
+.PHONY : znaki_ony.i
+
+# target to preprocess a source file
+znaki_ony.cpp.i:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/znaki_ony.cpp.i
+.PHONY : znaki_ony.cpp.i
+
+znaki_ony.s: znaki_ony.cpp.s
+
+.PHONY : znaki_ony.s
+
+# target to generate assembly for a file
+znaki_ony.cpp.s:
+	$(MAKE) -f CMakeFiles/bnlinux.dir/build.make CMakeFiles/bnlinux.dir/znaki_ony.cpp.s
+.PHONY : znaki_ony.cpp.s
 
 # Help Target
 help:
@@ -346,32 +481,47 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... BNLinux"
+	@echo "... bnlinux"
 	@echo "... edit_cache"
 	@echo "... bnlinux.o"
 	@echo "... bnlinux.i"
 	@echo "... bnlinux.s"
+	@echo "... bnlinux_ony.o"
+	@echo "... bnlinux_ony.i"
+	@echo "... bnlinux_ony.s"
 	@echo "... clovo.o"
 	@echo "... clovo.i"
 	@echo "... clovo.s"
-	@echo "... list.o"
-	@echo "... list.i"
-	@echo "... list.s"
+	@echo "... listbox.o"
+	@echo "... listbox.i"
+	@echo "... listbox.s"
+	@echo "... listbox_ony.o"
+	@echo "... listbox_ony.i"
+	@echo "... listbox_ony.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... shift.o"
 	@echo "... shift.i"
 	@echo "... shift.s"
+	@echo "... shift_ony.o"
+	@echo "... shift_ony.i"
+	@echo "... shift_ony.s"
 	@echo "... sound.o"
 	@echo "... sound.i"
 	@echo "... sound.s"
+	@echo "... sound_ony.o"
+	@echo "... sound_ony.i"
+	@echo "... sound_ony.s"
 	@echo "... typee.o"
 	@echo "... typee.i"
 	@echo "... typee.s"
 	@echo "... znak.o"
 	@echo "... znak.i"
 	@echo "... znak.s"
+	@echo "... znaki_ony.o"
+	@echo "... znaki_ony.i"
+	@echo "... znaki_ony.s"
 .PHONY : help
 
 

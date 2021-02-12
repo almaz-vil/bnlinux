@@ -65,7 +65,7 @@ bnlinux::~bnlinux()
 void bnlinux::Reshim(struct arguments args){
 	  Log("Выбор режимов работы");
 	  if(args.bn)
-		listbox=new ListBox();
+		listbox=new ListBox(); 
 	  else
 	  	listbox=new ListBox_ony();
 	  if(args.znak)
@@ -76,29 +76,25 @@ void bnlinux::Reshim(struct arguments args){
 	  	{orfo=1;		Log("ОРФО режим включён");}
 	  else 
 		{orfo=0;		  	Log("ОРФО режим отключён");}
-	
+	listbox->ClearOn();
 }
 
 void bnlinux::Print(int key_char, Lang lang){
+	Log("Press ", key_char);
 	if(lang==EN){
 	  Log("Символ английкого языка");
 	  listbox->Clear();
 	  return;
 	}
-	if (clovo->Count())
-		Log("Есть символы в слове clovo");
-		if ((key_char>47)&&(key_char<58)) {
-			Log("Символ от 47 до 58, выбор слова из словоря");
+	Log("clovo->Count=", clovo->Count());
+	if (clovo->Count()&&(key_char>47)&&(key_char<58)) {
+		Log("Символ от 47 до 58, выбор слова из словоря");
+		if(listbox->Select(key_char, clovo))
 			znak->probel();
-			listbox->Select(key_char, clovo);
-			return;
-		}
+		return;
+	}
 	znak->obrabotka(key_char, clovo);
-
-	int nomer=clovo->Add(key_char);
-	
-	if (nomer<1){
-		Log("Очистка nomer=", nomer);
+	if (clovo->Add(key_char)){
 		listbox->Clear();
 	 	return;
 	 }
@@ -110,19 +106,16 @@ void bnlinux::Print(int key_char, Lang lang){
 		clovo->Upda();
 		if(!this->Find()){
 			Log("(2)В словаре нет слова");
-			if(this->orfo)
-				if(clovo->Count()>1){
-					command_shell("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
-					int len=clovo->clov.length();
-					string m;
-					for(unsigned i = 0; i < len; ++i) {
-						m.append(listbox->ClovoPrintUTFS(i,clovo->clov));
-					}
-					string s="ОПЕЧАТКА (добавьте слово '";
-					s.append(m);
-					s.append("' в словарь <F4>)");
-					info(s);
-					}
+			if(this->orfo||clovo->Count()){
+				command_shell("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
+				string s="ОПЕЧАТКА (добавьте слово '";
+				for(unsigned i = 0; i < clovo->clov.length(); ++i) {
+					s.append(listbox->ClovoPrintUTFS(i,clovo->clov));
+				}					
+				s.append("' в словарь <F4>)");
+				info(s);
+				listbox->ClearOn();
+				}
 		}
 	}
 

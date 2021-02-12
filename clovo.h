@@ -16,7 +16,7 @@ class Clovo{
 		Clovo(Lang lang);
 		void SetLang(Lang lang);
 		void Clear();
-		int Add(int ch);
+		bool Add(int ch);
 		int Add(std::string str);
 		int Count();
 		char *alfavid;// = new char[141];
@@ -27,6 +27,7 @@ class Clovo{
 		void Clear_Probel(bool clear=true);
 		std::string clov ="";
 	private:
+		/*Наличие пробела в слове*/
 		bool probel=false;
 		char ENinRus(int ch);
 		int nomer = -1;

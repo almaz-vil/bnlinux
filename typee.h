@@ -33,7 +33,9 @@ void key_pavse(const char *cmdl,  Display *display);
 void cp1251_to_utf8(char *str, char *res);
 
 void Log(const std::string msg, bool error=false);
+void Log1(const std::string msg, bool error=false);
 void Log(std::string msg, int key, bool error=false);
+void Log1(std::string msg, int key, bool error=false);
 
 
 #endif

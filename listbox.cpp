@@ -37,17 +37,23 @@ ListBox::ListBox(){
 	if ((display=XOpenDisplay(display_name))==nullptr)	Log("XOpen error!");
 }
 
+/*Необходимость очистить вывод перед записью в вывод*/
+void ListBox::ClearOn(){
+	this->claer=true;
+}
 
 void ListBox::Clear(){
-	
-	Log("Очистка списка слов");
-	string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
-	cmdf.append(" \" >> /tmp/bnlinux_sv ");
-	command_shell(cmdf.c_str());
-	for (int i=0; i<this->count_item_label; i++){
-		this->ListClov[i]="";
-	    }
-	this->count_item_label=0;
+	if(this->claer){
+		this->claer=false;
+		Log("Очистка списка слов");
+		string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
+		cmdf.append(" \" >> /tmp/bnlinux_sv ");
+		command_shell(cmdf.c_str());
+		for (int i=0; i<this->count_item_label; i++){
+			this->ListClov[i]="";
+			}
+		this->count_item_label=0;
+	}
 }
 //****************
 
@@ -66,11 +72,10 @@ void ListBox::Clear(){
 int ListBox::Add (const char *sText)
 {
 	Log(" Добавления слова и номера");
-	 string sn="";
-	sn.append(sText);
-	int len=sn.length();
+	this->ClearOn();
+	 string sn= string(sText);
 	 string m;
-	for(unsigned i = 0; i < len; ++i) {
+	for(unsigned i = 0; i < sn.length(); ++i) {
 		m.append(ClovoPrintUTFS(i,sn));
 	}
     string cmdf="echo -n \" ";
@@ -81,13 +86,17 @@ int ListBox::Add (const char *sText)
 	this->ListClov[this->count_item_label].append(sText);
 	return this->count_item_label++;
 }
-
-void ListBox::Select(int n, Clovo *clovo){
+/*return 
+	false -пробел не добавлял
+	true -пробел добавлял*/
+bool ListBox::Select(int n, Clovo *clovo){
 	 Log("Выбор слова из словоря");
+	 if(!this->count_item_label)
+	 	return false;
 	 int id= n-48;
-	 if (!((id>-1)&&(id<7))){
+	 if (!((id>-1)&&(id<7))){ //!(n>47)&&(n<58))
 		 this->Clear();
-		 return;
+		 return false;
 	 }
  	 string sn=this->ListClov[id];
  	int len=sn.length();
@@ -97,8 +106,7 @@ void ListBox::Select(int n, Clovo *clovo){
 	}
 	clovo->Clear();
 	clovo->Add(sn);
- 	//for (int i = 0; i<clovo->Count()+1 ;i++){
-		 key_del(display);
+ 	key_del(display);
  	//}
  	//GtkClipboard *clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
  	//gtk_clipboard_set_text(clip,m.c_str(),-1);
@@ -109,6 +117,7 @@ void ListBox::Select(int n, Clovo *clovo){
 	key_pavse(cmdf.c_str(), display);
 	this->Clear();//Очистка после пробела.
 	clovo->Add_Probel();
+	return true;
 	//clovo->Clear();
 }
 

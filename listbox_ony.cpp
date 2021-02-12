@@ -38,18 +38,22 @@ ListBox_ony::ListBox_ony(){
 
 
 void ListBox_ony::Clear(){
-
-	 string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
-	cmdf.append(" \" >> /tmp/bnlinux_sv ");
-	command_shell(cmdf.c_str());
 }
 
 int ListBox_ony::Add (const char *sText){
 }
 
-void ListBox_ony::Select(int n, Clovo *clovo){
+/*return 
+	false -пробел не добавлял
+	true -пробел добавлял*/
+bool ListBox_ony::Select(int n, Clovo *clovo){
+	return false;
 }
 
 std::string ListBox_ony::ClovoPrintUTFS(int n,  std::string sn){
+
+}
+
+void ListBox_ony::ClearOn(){
 
 }

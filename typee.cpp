@@ -43,7 +43,7 @@ void info(arguments args){
 	info(ino);
 }
 
-
+/*Удаление одного символа т.е. press key <BASKSPACE>*/
 void key_del(Display *display){
 		Log("Программное нажатие клавиш для удаления символа");
 		int kc;
@@ -79,9 +79,8 @@ void key_pavse(const char *cmdl,  Display *display){
 void command_shell(std::string s){
 Log("Активация commamd_shell");
 	if(system(s.c_str())<1) {
-//		return;
 	}
-	Log("ДеактивацияАктивация commamd_shell");
+Log("Деактивация commamd_shell");
 }
 
 void cp1251_to_utf8(char *str, char *res) {
@@ -128,8 +127,13 @@ void cp1251_to_utf8(char *str, char *res) {
 	res[j] = '\0';
 }
 
+//#define LOG
+#define CPUTIME 
+#ifndef LOG
+#ifndef CPUTIME
 static double U_CPU=0, S_CPU=0, ClockTime=0;
 static long CLOCK;
+#endif
 void Log(std::string msg, bool error){
 struct timeval tv;
 gettimeofday(&tv,NULL);
@@ -137,6 +141,7 @@ const time_t* t=&tv.tv_sec;
 struct tm *timefs=localtime(t);
 struct tm gm;
 gm=*timefs;
+#ifndef CPUTIME
 struct tms tsmm;
 clock_t clockTime;
 static long clockTicks=0;
@@ -146,9 +151,6 @@ if (clockTicks==0)
 }
 clockTime=clock();
 times(&tsmm);
-std::stringstream ss;
-ss << msg<<" "<<gm.tm_hour<<":"<<gm.tm_min<<":"<<gm.tm_sec;
-std::string strResult = ss.str();
 double CT=(double)clockTime/CLOCKS_PER_SEC;
 double CTR=CT-ClockTime;
 ClockTime=CT;
@@ -161,15 +163,40 @@ S_CPU=S_CP;
 long CTCLOK=(long)clockTime;
 long CTCLOKR=CTCLOK-CLOCK;
 CLOCK=CTCLOK;
+#endif
+std::stringstream ss;
+ss << "\e[1;34m"<<msg<<"\e[0m\t\t\e[1;33m<"<<gm.tm_hour<<":"<<gm.tm_min<<":"<<gm.tm_sec<<">\e[0m";
+std::string strResult = ss.str();
 openlog("bnlinux",LOG_PERROR | LOG_PID,LOG_USER);
+    #ifndef CPUTIME
     syslog(LOG_INFO,"\n%s\n\n\tclock=%ld\t(fun=%ld) per-sec(%.6f secs)\t(fun=%.6f secs)\n\tU_CPU: %.6f\t(fun=%.6f secs)\tsystem CPU: %.6f\t(fun=%.6f secs)", strResult.c_str(),
 	CTCLOK,CTCLOKR,CT,CTR,U_CP,U_CPUR,S_CP,S_CPSR);
+	#else
+    syslog(LOG_INFO,"\n%s\n", strResult.c_str());
+	#endif
     closelog();
 }
+#else
+void Log(std::string msg, bool error){\
 
+}
+#endif
+
+void Log1(std::string msg, bool error){\
+
+openlog("bnlinux",LOG_PERROR | LOG_PID,LOG_USER);
+    syslog(LOG_INFO,"\n%s", msg.c_str() );
+    closelog();
+}
 void Log(std::string msg, int key, bool error){
    msg.append(" Key=<");
    msg.append(std::to_string(key));
    msg.append(">");
    Log(msg);
+}
+void Log1(std::string msg, int key, bool error){
+   
+   msg.append(std::to_string(key));
+   
+   Log1(msg);
 }

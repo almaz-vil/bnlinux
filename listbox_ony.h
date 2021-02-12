@@ -17,7 +17,8 @@ class ListBox_ony{
 		ListBox_ony();
 		virtual int Add(const char *sText);
 		virtual void Clear();
-		virtual void Select(int n, Clovo *clovo);
+		virtual void ClearOn();
+		virtual bool Select(int n, Clovo *clovo);
 		virtual std::string ClovoPrintUTFS(int n,  std::string sn);
 
 };
