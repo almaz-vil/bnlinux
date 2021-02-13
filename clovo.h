@@ -29,6 +29,7 @@ class Clovo{
 	private:
 		/*Наличие пробела в слове*/
 		bool probel=false;
+		void CharUp(char& chas);
 		char ENinRus(int ch);
 		int nomer = -1;
 		Lang lang = Lang::RUS;

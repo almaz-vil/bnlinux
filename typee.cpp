@@ -77,10 +77,10 @@ void key_pavse(const char *cmdl,  Display *display){
 
 
 void command_shell(std::string s){
-Log("Активация commamd_shell");
+//Log("Активация commamd_shell");
 	if(system(s.c_str())<1) {
 	}
-Log("Деактивация commamd_shell");
+//Log("Деактивация commamd_shell");
 }
 
 void cp1251_to_utf8(char *str, char *res) {

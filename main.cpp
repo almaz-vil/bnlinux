@@ -322,7 +322,7 @@ Lang Rus_or_En()
 void SendKeySignal(int key){
   Log("Вызов sound->play");	    
 	sound->play(key, Rus_or_En());
-  if(shift_flag) return;
+  if(shift_flag||(key==20)) return; //Вставка знака препинания или Caps Lock
   Log("Вызов bnl->Print");	    
   bnl->Print(key, Rus_or_En());
 }

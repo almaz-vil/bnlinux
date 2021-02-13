@@ -6,7 +6,7 @@
 //**класс для формирования списока слов***
 //****************************************
 
-
+#include <iostream>
 #include <string>
 #include <fstream>
 
@@ -89,7 +89,14 @@ bool Clovo::Add(int ch){
 		this->Clear();
 		return this->nomer<1?true:false;
 		}
-	
+	// символы ъ Ъ - не могут быть первыми	
+	if(((!(this->Count()))||this->probel)&&((ch==125)||(ch==93)||(ch==45))){
+		if(this->probel)
+			this->Clear_Probel();
+		this->Clear();
+		return this->nomer<1?true:false;
+		
+	}
 	if (this->lang==RUS) {
 		Log(" Добавления символа в слово");
 		if(this->probel)
@@ -102,50 +109,55 @@ bool Clovo::Add(int ch){
 void Clovo::Upda(){
 	
 	Log("Изменение регистра с Заглавного на строчные");
-	char& chas=this->clov.back();		
+	this->CharUp(this->clov.front());		
+	this->CharUp(this->clov.back());		
+	
+}	
+
+void Clovo::CharUp(char& chas){
 	for (int i = 0; i < 140; i++){            
 		if(chas==this->alfavid[i]){
         	if ((i>65)&&(i<92)){
-		    chas=this->alfavid[i+32];
-			}
-                switch (i)
-                {
-                case 126: // Ё->ё
-         			chas=this->alfavid[96];
-		        	break;
-                case 123: //Х->х
-                   	chas=this->alfavid[91];
+				chas=this->alfavid[i+32];
+				return;
+				}
+			switch (i){
+				case 126: // Ё->ё
+					chas=this->alfavid[96];
+					break;
+				case 123: //Х->х
+					chas=this->alfavid[91];
 					break;             
-                case 58: //Ж->ж
+				case 58: //Ж->ж
 					chas=this->alfavid[59];
-			        break;                
-                case 34: //Э-э
+					break;                
+				case 34: //Э-э
 					chas=this->alfavid[39];
-			        break;                
-                case 62: //Ю->ю
+					break;                
+				case 62: //Ю->ю
 					chas=this->alfavid[46];
-			        break;
-                case 60: //Б->б
+					break;
+				case 60: //Б->б
 					chas=this->alfavid[44];
-			        break;
-                }
-           
-		        break;
-            }
+					break;
+			}
+			return;
+        }
 	}
-}	
-
+}
 bool Clovo::Probel(){
 	Log("Запрос  пробела");
 	return this->probel;
 }
-/**/
+
+/*Добавления пробела в слово*/
 void Clovo::Add_Probel(){
 	Log(" Добавления пробела в слово");
 	this->clov+=this->alfavid[1];
 	this->probel=true;
 }
 
+/*Пробел отключение*/
 void Clovo::Clear_Probel(bool clear){
 	Log("Пробел отключение");
 	if(clear)

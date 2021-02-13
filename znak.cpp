@@ -72,53 +72,49 @@ void Znak::bolch(int i, Clovo *clovo){
     key_pavse(cmdf.c_str(), display);  
 }
 
+/*Преобразование заглавной буквы строчной.*/
 void Znak::Uppad(Clovo *clovo){
-    Log1("Преобразование заглавной буквы строчной. ");
+    Log("Преобразование заглавной буквы строчной. ");
     this->fProbel=0;
     Log("Деактивация флажка пробел");    
     if(this->fBolBukva){
         Log("Деактивация флажка большая буква");
         this->fBolBukva=0;
-        this->fBolBukvaListSelect=1;
-        for (int i = 0; i < 140; i++)
-        {            
-            string ch="";
-            string cha="";
-            char a[2]={0,0};
-            *a=clovo->clov[0];
-            cha.append(a);
-            char b[2]={0,0};
-            *b=clovo->alfavid[i];
-             ch.append(b);
-            if (ch==cha){
-                if ((i>97)&&(i<124)){
-                    this->bolch(i-32, clovo);
-                }
-                switch (i)
-                {
-                case 96: // ё->Ё
-                   this->bolch(126, clovo);
-                    break;
-                case 91: //х->Х
-                   this->bolch(123, clovo);
-                    break;             
-                case 59: //ж->Ж
-                   this->bolch(58, clovo);
-                    break;                
-                case 39: //э->Э
-                   this->bolch(34, clovo);
-                    break;                
-                case 46: //ю->Ю
-                   this->bolch(62, clovo);
-                    break;
-                case 44: //б->Б
-                   this->bolch(60, clovo);
-                    break;
-                }
-                break;
-            }
-           
+        if (clovo->Count()){
+            this->CharDn(clovo->clov.front(), clovo);
         }
     }
  
+}
+
+void Znak::CharDn(char& chas, Clovo* clovo){
+    for (int i = 0; i < 140; i++){
+        if (chas==clovo->alfavid[i]){
+            if ((i>97)&&(i<124)){
+                this->bolch(i-32, clovo);
+                return;
+                }
+            switch (i){
+                case 96: // ё->Ё
+                    this->bolch(126, clovo);
+                    break;
+                case 91: //х->Х
+                    this->bolch(123, clovo);
+                    break;             
+                case 59: //ж->Ж
+                    this->bolch(58, clovo);
+                    break;                
+                case 39: //э->Э
+                    this->bolch(34, clovo);
+                    break;                
+                case 46: //ю->Ю
+                    this->bolch(62, clovo);
+                    break;
+                case 44: //б->Б
+                    this->bolch(60, clovo);
+                    break;
+            }
+            return;
+        }
+    }    
 }

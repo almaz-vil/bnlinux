@@ -24,9 +24,9 @@ class Znak:public Znak_ony
     private:
         int fProbel=0;
         int fBolBukva=0;
-        int fBolBukvaListSelect=0;
         Display *display;
         void bolch(int i, Clovo *clovo);
+        void CharDn(char& chas, Clovo* clovo);
     public:
         Znak();
         ~Znak();

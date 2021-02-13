@@ -71,7 +71,7 @@ void ListBox::Clear(){
  */
 int ListBox::Add (const char *sText)
 {
-	Log(" Добавления слова и номера");
+//	Log(" Добавления слова и номера");
 	this->ClearOn();
 	 string sn= string(sText);
 	 string m;
