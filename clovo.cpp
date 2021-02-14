@@ -62,7 +62,7 @@ void Clovo::SetLang(Lang lang){
 }
 
 int Clovo::Count(){
-	Log("Возврат количества символов в слове");
+//	Log("Возврат количества символов в слове");
 	return this->clov.length();
 }
 

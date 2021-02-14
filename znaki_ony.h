@@ -20,7 +20,9 @@ class Znak_ony
         Znak_ony();
         ~Znak_ony();
         virtual void obrabotka(int chr, Clovo *clovo);
-        virtual void probel();
+        virtual void Probel();
+        virtual void ProbelClear();
+        virtual void BolBukvaClear();
         virtual void Uppad(Clovo *clovo);
 };
 

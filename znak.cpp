@@ -26,19 +26,30 @@ Znak::Znak(){
 	if ((display=XOpenDisplay(display_name))==nullptr)	printf("XOpen error!");
 }
 /*Активация флажка пробел*/
-void Znak::probel(){
+void Znak::Probel(){
     Log("Активация флажка пробел");
     this->fProbel=1;
+}
+
+void Znak::BolBukvaClear(){
+    Log("Деактивация флажка большая буква");
+    this->fBolBukva=0;
+}
+
+void Znak::ProbelClear(){
+    Log("Деактивация флажка пробел");
+    this->fProbel=0;
 }
 
 void Znak::obrabotka(int chr, Clovo *clovo){
     Log("Обработка в классе Знак");
     if (((chr==47)||(chr==33)||(chr==38))){
-        Log("Активация флажка большая буква");
-        this->fBolBukva=1;
+        if(clovo->Count()>1){
+            Log("Активация флажка большая буква");
+            this->fBolBukva=1;
+        }
         if(this->fProbel){
-            Log("Деактивация флажка пробел");
-            this->fProbel=0;
+            this->ProbelClear();
             key_del(this->display);    
             key_del(this->display);
             string cmdf="echo -n \"";
@@ -47,6 +58,7 @@ void Znak::obrabotka(int chr, Clovo *clovo){
             if(chr==38)cmdf.append("? ");
             cmdf.append("\" |xclip -selection c");
             key_pavse(cmdf.c_str(), display);  
+            return;
         }
         else {
             if (clovo->Count()<2)
@@ -55,6 +67,7 @@ void Znak::obrabotka(int chr, Clovo *clovo){
             cmdf.append(" ");
             cmdf.append("\" |xclip -selection c");
             key_pavse(cmdf.c_str(), display);                
+            return;
         }
     }
 }
@@ -75,11 +88,9 @@ void Znak::bolch(int i, Clovo *clovo){
 /*Преобразование заглавной буквы строчной.*/
 void Znak::Uppad(Clovo *clovo){
     Log("Преобразование заглавной буквы строчной. ");
-    this->fProbel=0;
-    Log("Деактивация флажка пробел");    
+    this->ProbelClear();
     if(this->fBolBukva){
-        Log("Деактивация флажка большая буква");
-        this->fBolBukva=0;
+       this->BolBukvaClear();
         if (clovo->Count()){
             this->CharDn(clovo->clov.front(), clovo);
         }

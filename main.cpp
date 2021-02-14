@@ -314,16 +314,16 @@ void Resim(arguments args){
 // Русский язык да или нет
 Lang Rus_or_En()
 {
-  Log("Узнаём текущий язык");	    
+ // Log("Узнаём текущий язык");	    
   return execute(COMMAND_STR_RUS_EN_STATE).size() >= 2 ? RUS:EN;
  
 }
 // Отправка сигнала номер введенного символа
 void SendKeySignal(int key){
-  Log("Вызов sound->play");	    
+ // Log("Вызов sound->play");	    
 	sound->play(key, Rus_or_En());
   if(shift_flag||(key==20)) return; //Вставка знака препинания или Caps Lock
-  Log("Вызов bnl->Print");	    
+//  Log("Вызов bnl->Print");	    
   bnl->Print(key, Rus_or_En());
 }
 

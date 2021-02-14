@@ -82,19 +82,29 @@ void bnlinux::Reshim(struct arguments args){
 void bnlinux::Print(int key_char, Lang lang){
 	Log("Press ", key_char);
 	if(lang==EN){
-	  Log("Символ английкого языка");
+	  //Log("Символ английкого языка");
 	  listbox->Clear();
 	  return;
 	}
 	Log("clovo->Count=", clovo->Count());
 	if (clovo->Count()&&(key_char>47)&&(key_char<58)) {
 		Log("Символ от 47 до 58, выбор слова из словоря");
-		if(listbox->Select(key_char, clovo))
-			znak->probel();
+		if(listbox->Select(key_char, clovo)){
+			Log("Слово есть +пробел!!");
+			znak->Probel();
+		}
+		else{
+			Log("Общий сброс!!");
+			znak->BolBukvaClear();
+			znak->ProbelClear();
+			clovo->Clear();
+		}
+		
 		return;
 	}
 	znak->obrabotka(key_char, clovo);
 	if (clovo->Add(key_char)){
+		znak->ProbelClear();
 		listbox->Clear();
 	 	return;
 	 }

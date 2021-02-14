@@ -31,8 +31,10 @@ class Znak:public Znak_ony
         Znak();
         ~Znak();
         void obrabotka(int chr, Clovo *clovo) override;
-        void probel() override;
+        void Probel() override;
         void Uppad(Clovo *clovo) override;
+        void BolBukvaClear() override;
+        void ProbelClear() override;
 };
 
 #endif 

@@ -20,7 +20,7 @@ Znak_ony::Znak_ony(){
 Znak_ony::~Znak_ony(){    
 }
 
-void Znak_ony::probel(){
+void Znak_ony::Probel(){
 }
 
 void Znak_ony::obrabotka(int chr, Clovo *clovo){
@@ -32,3 +32,7 @@ void Znak_ony::Uppad(Clovo *clovo){
     
  
 }
+/*Не ставим большую букв*/
+void Znak_ony::BolBukvaClear(){}
+/*Нет пробела*/
+void Znak_ony::ProbelClear(){}
