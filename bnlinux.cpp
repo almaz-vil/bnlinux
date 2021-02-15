@@ -102,6 +102,10 @@ void bnlinux::Print(int key_char, Lang lang){
 		
 		return;
 	}
+
+	if((key_char>47)&&(key_char<58)){
+		znak->BolBukvaClear();
+	}
 	znak->obrabotka(key_char, clovo);
 	if (clovo->Add(key_char)){
 		znak->ProbelClear();
@@ -140,6 +144,8 @@ int bnlinux::Find(){
 			size_t up=string_is_list.find(clovo->clov);
 			if((up!= string::npos)&&(up==0)){
 				not_clovo=1;
+				string_is_list.erase(string_is_list.end()-1);
+				listbox->Add(string_is_list.c_str());
 				for(auto iter1 = iter; iter1 != listrus.end(); ++iter1){
 					string s_is_list=*iter1;
 					s_is_list.erase(s_is_list.end()-1);

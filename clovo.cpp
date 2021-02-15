@@ -68,6 +68,7 @@ int Clovo::Count(){
 
 void Clovo::Clear(){
 	Log("Очистка слова");
+	ClearLog();
 	this->clov.clear();
 }
 
@@ -89,8 +90,8 @@ bool Clovo::Add(int ch){
 		this->Clear();
 		return this->nomer<1?true:false;
 		}
-	// символы ъ Ъ - не могут быть первыми	
-	if(((!(this->Count()))||this->probel)&&((ch==125)||(ch==93)||(ch==45))){
+	// символы ъ Ъ - Ь ь Ы ы не могут быть первыми	
+	if(((!(this->Count()))||this->probel)&&((ch==125)||(ch==93)||(ch==45)||(ch==83)||(ch==115)||(ch==77)||(ch==109))){
 		if(this->probel)
 			this->Clear_Probel();
 		this->Clear();
@@ -106,12 +107,10 @@ bool Clovo::Add(int ch){
 	return this->Count()<1?true:false;
 }
 
-void Clovo::Upda(){
-	
+void Clovo::Upda(){	
 	Log("Изменение регистра с Заглавного на строчные");
 	this->CharUp(this->clov.front());		
-	this->CharUp(this->clov.back());		
-	
+	this->CharUp(this->clov.back());			
 }	
 
 void Clovo::CharUp(char& chas){

@@ -18,6 +18,13 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 
+/*Очистить апплет*/
+void ClearLog(){
+	Log("Чистка апплета");
+	std::string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" \" >> /tmp/bnlinux_sv ";
+    command_shell(cmdf.c_str());
+
+}
 
 void info(std::string s){
 	Log("Вывод информации для апплета в файл /tmp/bnlinux_sv");

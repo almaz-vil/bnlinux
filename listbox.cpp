@@ -46,9 +46,7 @@ void ListBox::Clear(){
 	if(this->claer){
 		this->claer=false;
 		Log("Очистка списка слов");
-		string cmdf="truncate -s 0 /tmp/bnlinux_sv; echo -n \" ";
-		cmdf.append(" \" >> /tmp/bnlinux_sv ");
-		command_shell(cmdf.c_str());
+		ClearLog();
 		for (int i=0; i<this->count_item_label; i++){
 			this->ListClov[i]="";
 			}
@@ -107,17 +105,13 @@ bool ListBox::Select(int n, Clovo *clovo){
 	clovo->Clear();
 	clovo->Add(sn);
  	key_del(display);
- 	//}
- 	//GtkClipboard *clip = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
- 	//gtk_clipboard_set_text(clip,m.c_str(),-1);
-	       string cmdf="echo -n \"";
-		  cmdf.append(m.c_str());
+	string cmdf="echo -n \"";
+		cmdf.append(m.c_str());
 		  cmdf.append(" ");//+ пробел
       cmdf.append("\" |xclip -selection c");
 	key_pavse(cmdf.c_str(), display);
 	this->Clear();//Очистка после пробела.
 	clovo->Add_Probel();
 	return true;
-	//clovo->Clear();
 }
 

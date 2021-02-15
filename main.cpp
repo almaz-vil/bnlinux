@@ -147,7 +147,7 @@ void process_command_line_arguments(int argc, char **argv)
       case 'k': args.kill = true;           break;
       case 'd': args.device = optarg;       break;
       case '?': usage(); exit(EXIT_SUCCESS);
-      case 'v':   fprintf(stderr,"Version:0.0.4\n"); exit(EXIT_SUCCESS);
+      case 'v':   fprintf(stderr,"Version:0.0.5\n"); exit(EXIT_SUCCESS);
       default : usage(); exit(EXIT_FAILURE);
     }
   } // while

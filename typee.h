@@ -31,7 +31,7 @@ void info(arguments args);
 void key_del(Display *display);
 void key_pavse(const char *cmdl,  Display *display);
 void cp1251_to_utf8(char *str, char *res);
-
+void ClearLog();
 void Log(const std::string msg, bool error=false);
 void Log1(const std::string msg, bool error=false);
 void Log(std::string msg, int key, bool error=false);
