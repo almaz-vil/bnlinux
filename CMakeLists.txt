@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 project(bnlinux)
 
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+  set(CMAKE_BUILD_TYPE Debug)
 endif()
 
 
@@ -25,7 +25,8 @@ FIND_LIBRARY(X11_XTest_LIB Xtst ${X11_LIB_SEARCH_PATH})
 target_link_libraries(bnlinux ${X11_XTest_LIB})
 add_compile_options(
     -Werror
-
+    -g
+    -fno-inline
     -Wall
     -Wextra
     -Wpedantic

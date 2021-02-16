@@ -121,6 +121,7 @@ void bnlinux::Print(int key_char, Lang lang){
 		if(!this->Find()){
 			Log("(2)В словаре нет слова");
 			if(this->orfo||clovo->Count()){
+				Log("Информация об опечатке!!");
 				command_shell("play /opt/bnlinux/local/sound/VClovar.wav 2>/dev/null");				
 				string s="ОПЕЧАТКА (добавьте слово '";
 				for(unsigned i = 0; i < clovo->clov.length(); ++i) {

@@ -99,7 +99,7 @@ bool Clovo::Add(int ch){
 		
 	}
 	if (this->lang==RUS) {
-		Log(" Добавления символа в слово");
+		Log(" Добавления символа в слово", ch);
 		if(this->probel)
 			this->Clear_Probel();
 		this->clov+=Clovo::alfavid[ch];

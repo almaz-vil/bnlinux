@@ -41,6 +41,7 @@ void ListBox_ony::Clear(){
 }
 
 int ListBox_ony::Add (const char *sText){
+	return 6;
 }
 
 /*return 
@@ -51,7 +52,7 @@ bool ListBox_ony::Select(int n, Clovo *clovo){
 }
 
 std::string ListBox_ony::ClovoPrintUTFS(int n,  std::string sn){
-
+	return sn;
 }
 
 void ListBox_ony::ClearOn(){
