@@ -49,28 +49,19 @@ void Shift::On(){
 }
 
 void Shift::Reshim(char key , bnlinux_ony *bnlinux){
-    
-    
     if (this->fShift){
         this->fShift=0;
-        Log("Деактивация флажка Shift. Программное нашатие клавиш");
-        char buf[4], copy ;
-        copy=toupper(key);
-        sprintf(buf, "%lc", copy);
-
-       int kc=XKeysymToKeycode(this->display, XK_BackSpace);
+        Log("Деактивация флажка Shift. Программное нашатие клавиш!");
+        int kc=XKeysymToKeycode(this->display, XK_BackSpace);
         XTestFakeKeyEvent(this->display, kc, True, 0);
         XFlush(this->display);
         XTestFakeKeyEvent(this->display, kc, False, 0);
         XFlush(this->display);
-        KeySym symbol=XStringToKeysym(buf);
-        if (symbol==NoSymbol)Log("error X server symbol"); 
-        sleep(1);
         kc = XKeysymToKeycode(this->display, XK_Shift_L);
         XTestFakeKeyEvent(this->display, kc, True, 0);
         XFlush(this->display);
         sleep(1);
-        kc = XKeysymToKeycode(this->display, symbol);
+        kc = XKeysymToKeycode(this->display, key);
         XTestFakeKeyEvent(this->display, kc, True, 0);
         XFlush(this->display);
         XTestFakeKeyEvent(this->display, kc, False, 0);

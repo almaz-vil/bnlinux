@@ -63,10 +63,14 @@ void key_del(Display *display){
 		
 	}
 
+
+
 void key_pavse(const char *cmdl,  Display *display){      
+	
 	if(system(cmdl)<1) {
-//		return;
+	//	return;
 	}
+
 	Log("Программное нажатие клавиш");
  	int kc;
 	kc = XKeysymToKeycode(display, 0xffe4);
@@ -80,6 +84,8 @@ void key_pavse(const char *cmdl,  Display *display){
 	kc = XKeysymToKeycode(display, 0xffe4);
 	XTestFakeKeyEvent(display, kc, False, 0);
 	XFlush(display);
+
+
 }
 
 

@@ -42,7 +42,7 @@ void Znak::ProbelClear(){
 }
 
 void Znak::obrabotka(int chr, Clovo *clovo){
-    Log("Обработка в классе Знак");
+    Log("Обработка в классе Знак!");
     if (((chr==47)||(chr==33)||(chr==38))){
         if(clovo->Count()>1){
             Log("Активация флажка большая буква");
@@ -52,12 +52,14 @@ void Znak::obrabotka(int chr, Clovo *clovo){
             this->ProbelClear();
             key_del(this->display);    
             key_del(this->display);
+            Log("Добавление пробела после знака припенания");            
             string cmdf="echo -n \"";
             if(chr==47)cmdf.append(". ");
             if(chr==33)cmdf.append("! ");
             if(chr==38)cmdf.append("? ");
             cmdf.append("\" |xclip -selection c");
             key_pavse(cmdf.c_str(), display);  
+            Log("END.Добавление пробела после знака припенания");            
             return;
         }
         else {
