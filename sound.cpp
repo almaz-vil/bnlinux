@@ -1,6 +1,6 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 //*********************
 //**Звуковая клавиатура
@@ -9,7 +9,9 @@
 #include <string.h>
 #include <fstream>
 
+#ifndef SOUUD
 #include "sound.h"
+#endif
 
 #ifndef TYPEE
 #include "typee.h"

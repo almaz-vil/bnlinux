@@ -1,6 +1,6 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 //***********************
 //**класс список слов
@@ -8,10 +8,12 @@
 
 
 #include <string>
-
+#ifndef TYPEE
 #include "typee.h"
-
+#endif
+#ifndef LIST_BOX_ONY
 #include "listbox_ony.h"
+#endif
 #ifndef CLOVO
 #include "clovo.h"
 #endif

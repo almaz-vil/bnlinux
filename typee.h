@@ -5,6 +5,7 @@
 #ifndef TYPEE
 #define TYPEE
 
+
 #include <string>
 #include <X11/Xlib.h>
 #include <syslog.h>
@@ -25,11 +26,19 @@ struct arguments
 #define FLAG_NO_DAEMON       0x40  // don't daemonize process, stay in foreground, --no-daemon switch
 };
 enum Lang {RUS, EN};
+/**/
+void UnicodeB(Display *dpy);
+void UnicodeTochka(Display *dpy);
+void UnicodeVosklik(Display *dpy);
+void UnicodeVopros(Display *dpy);
+void UnicodeProbel(Display *dpy);
 void info(std::string s);
 void command_shell(std::string s);
 void info(arguments args);
 void key_del(Display *display);
-void key_pavse(const char *cmdl,  Display *display);
+//void key_pavse(const char *cmdl,  Display *display);
+void press_keys(const char* string,  Display *display);
+void xtest_key_press(unsigned char letter, Display *dpy);
 void cp1251_to_utf8(char *str, char *res);
 void ClearLog();
 void Log(const std::string msg, bool error=false);

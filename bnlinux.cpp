@@ -1,6 +1,6 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 //gh****************
 //hv* основной класс прослойка
@@ -11,7 +11,9 @@
 #include <unistd.h>
 #include <algorithm>
 
+#ifndef BNLINUX
 #include "bnlinux.h"
+#endif
 #ifndef LIST_BOX
 #include "listbox.h"
 #endif

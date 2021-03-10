@@ -1,6 +1,6 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 //****************************************
 //**класс для формирования списока слов***
@@ -24,6 +24,7 @@
 
 #ifdef OTP
 	#define PATHRUSALFAVIT "/opt/bnlinux/local/alfavid.txt"
+	#define PATHENGALFAVIT "/opt/bnlinux/local/alfavideng.txt"
 #else
 	#define PATHRUSALFAVIT "/usr/local/alfavid.txt"
 #endif
@@ -46,6 +47,16 @@ void  Clovo::LoadAlfavid(){
 		 Clovo::alfavid[n]=0;
 		 file.get(Clovo::alfavid,n);
 		file.close();
+	Clovo::alfavideng = new char[141];
+	 ifstream fileeng(PATHENGALFAVIT);//создаем объект потока istream  по имени file
+		if(!fileeng.is_open()) {
+			printf("not file\n");
+			return ;
+		}
+		//Создаем буффер для чтения
+		 Clovo::alfavideng[n]=0;
+		 fileeng.get(Clovo::alfavideng,n);
+		fileeng.close();
 
 }
 

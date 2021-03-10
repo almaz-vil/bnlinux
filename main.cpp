@@ -5,7 +5,7 @@
   
   Project homepage: https://github.com/kernc/logkeys
 Изменял Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 
 #include <cstdio>
@@ -147,7 +147,7 @@ void process_command_line_arguments(int argc, char **argv)
       case 'k': args.kill = true;           break;
       case 'd': args.device = optarg;       break;
       case '?': usage(); exit(EXIT_SUCCESS);
-      case 'v':   fprintf(stderr,"Version:0.0.5\n"); exit(EXIT_SUCCESS);
+      case 'v': fprintf(stderr,"Version:0.0.6\n"); exit(EXIT_SUCCESS);
       default : usage(); exit(EXIT_FAILURE);
     }
   } // while

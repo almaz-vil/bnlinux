@@ -1,6 +1,6 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 //**********************************
 // * Залипание SHIFT
@@ -20,9 +20,9 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 
-
+#ifndef SHIFT_ONY
 #include "shift_ony.h"
-
+#endif
 
 #ifndef BNLINUX_ONY
 #include "bnlinux_ony.h"

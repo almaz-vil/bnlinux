@@ -1,12 +1,13 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 #ifndef LIST_BOX
 #define LIST_BOX
 
 #include <string.h>
 #include <X11/Xlib.h>
+
 #ifndef LIST_BOX_ONY
 #include "listbox_ony.h"
 #endif

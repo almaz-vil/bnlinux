@@ -1,7 +1,8 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
+#pragma once
 #ifndef CLOVO
 #define CLOVO
 
@@ -19,7 +20,8 @@ class Clovo{
 		bool Add(int ch);
 		int Add(std::string str);
 		int Count();
-		char *alfavid;// = new char[141];
+		char *alfavid;
+		char *alfavideng;
 		void LoadAlfavid();
 		void Upda();
 		void Add_Probel();

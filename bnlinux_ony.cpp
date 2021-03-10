@@ -1,13 +1,11 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
-/*
-Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
-*/
-#include "bnlinux_ony.h"
 
+#ifndef BNLINUX_ONY
+#include "bnlinux_ony.h"
+#endif
 
 
 

@@ -1,6 +1,6 @@
 /*
 Поляков Дмитрий Владимирович <almaz-vil@list.ru>
-25.01.2021
+10.03.2021
 */
 //***********************
 //**класс список слов
@@ -8,10 +8,17 @@
 
 
 #include <string>
+#include <cstdlib>
 
+#ifndef TYPEE
 #include "typee.h"
+#endif
+#ifndef LIST_BOX
 #include "listbox.h"
+#endif
+#ifndef CLOVO
 #include "clovo.h"
+#endif
 #ifndef ZNAK
 #include "znaki.h"
 #endif
@@ -102,6 +109,16 @@ bool ListBox::Select(int n, Clovo *clovo){
 	for(unsigned i = clovo->Count(); i < len; ++i) {
 		m.append(ClovoPrintUTFS(i,sn));
 	}
+	string temp;
+	int lenn = sn.length();
+	for(int j=clovo->Count(); j < lenn; ++j){
+		for (int i = 0; i < 140; i++){
+			if (sn[j]==clovo->alfavid[i]){
+				temp+=clovo->alfavideng[i];
+			}
+		}
+	}
+	temp+=' ';
 	clovo->Clear();
 	clovo->Add(sn);
  	key_del(display);
@@ -109,9 +126,12 @@ bool ListBox::Select(int n, Clovo *clovo){
 		cmdf.append(m.c_str());
 		  cmdf.append(" ");//+ пробел
       cmdf.append("\" |xclip -selection c");
-	key_pavse(cmdf.c_str(), display);
+	//key_pavse(cmdf.c_str(), display);
+	press_keys(temp.c_str(), display);
 	this->Clear();//Очистка после пробела.
 	clovo->Add_Probel();
+	Log("Выбор слова из словоря END");
+
 	return true;
 }
 
