@@ -14,11 +14,12 @@ class bnlinux_ony
 {
 private:
     /* data */
+    int orfo;
 public:
     bnlinux_ony();
     ~bnlinux_ony();
    virtual void Print(int key, Lang lang = RUS);
-   
+  
 };
 
 

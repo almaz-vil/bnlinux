@@ -26,12 +26,15 @@ struct arguments
 #define FLAG_NO_DAEMON       0x40  // don't daemonize process, stay in foreground, --no-daemon switch
 };
 enum Lang {RUS, EN};
+enum PRESS {TOCHKA, VOSKLIK, PROBEL, BYKVA,VOPROS};
 /**/
-void UnicodeB(Display *dpy);
+void InputUnicodeKeyPress(Display *dpy, PRESS press);
+/*void UnicodeB(Display *dpy);
 void UnicodeTochka(Display *dpy);
 void UnicodeVosklik(Display *dpy);
 void UnicodeVopros(Display *dpy);
 void UnicodeProbel(Display *dpy);
+*/
 void info(std::string s);
 void command_shell(std::string s);
 void info(arguments args);

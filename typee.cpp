@@ -26,32 +26,53 @@
 #include <linux/kd.h>
 #include <linux/keyboard.h>
 
-void UnicodeTochka(Display *dpy){
+void InputUnicodeKeyPress(Display *dpy, PRESS press){
 
-  //my test string already transformed into unicode
-  //ready to be consumed by XStringToKeysym
-  const char *strings[] = {
-	  "U002E", //'.'
-      "U0020", //' '
-  };
-
+  
+  const char *strings[3] ;
+  int arraysize = 0;
+  switch (press)
+  {
+  case TOCHKA:{
+    strings[0] ="U002E"; //'.'
+    strings[1]="U0020"; //' '
+    arraysize=2;
+    break;
+    }
+  case VOSKLIK:{
+    strings[0] ="U0021"; //'!'
+    strings[1]="U0020"; //' '
+    arraysize=2;
+    break;
+    }
+  case BYKVA:{
+    strings[0] ="U0411"; //''
+    arraysize=1;
+    break;
+    }
+  case VOPROS:{
+    strings[0] ="U003F"; //'!'
+    strings[1]="U0020"; //' '
+    arraysize=2;
+    break;
+    }
+  case PROBEL:{
+    strings[0]="U0020"; //' '
+    arraysize=1;
+    break;
+    }
+    
+  default:
+    break;
+  }
   KeySym *keysyms = NULL;
   int keysyms_per_keycode = 0;
   int scratch_keycode = 0; // Scratch space for temporary keycode bindings
   int keycode_low, keycode_high;
-  //get the range of keycodes usually from 8 - 255
   XDisplayKeycodes(dpy, &keycode_low, &keycode_high);
-  //get all the mapped keysyms available
-  keysyms = XGetKeyboardMapping(
-    dpy, 
-    keycode_low, 
-    keycode_high - keycode_low, 
-    &keysyms_per_keycode);
+  keysyms = XGetKeyboardMapping(dpy, keycode_low, keycode_high - keycode_low, &keysyms_per_keycode);
 
-  //find unused keycode for unmapped keysyms so we can 
-  //hook up our own keycode and map every keysym on it
-  //so we just need to 'click' our once unmapped keycode
-  int i;
+ int i;
   for (i = keycode_low; i <= keycode_high; i++)
   {
     int j = 0;
@@ -59,11 +80,6 @@ void UnicodeTochka(Display *dpy){
     for (j = 0; j < keysyms_per_keycode; j++)
     {
       int symindex = (i - keycode_low) * keysyms_per_keycode + j;
-      // test for debugging to looking at those value
-      // KeySym sym_at_index = keysyms[symindex];
-      // char *symname;
-      // symname = XKeysymToString(keysyms[symindex]);
-
       if(keysyms[symindex] != 0) {
         key_is_empty = 0;
       } else {
@@ -80,28 +96,90 @@ void UnicodeTochka(Display *dpy){
 
   usleep(200 * 1000);
 
-  int arraysize = 2;
-  for (int i = 0; i < arraysize; i++)
+  for (int i = 0; i < arraysize; i++){
+
+      KeySym sym = XStringToKeysym(strings[i]);
+      KeySym keysym_list[2] = { sym, sym  };
+      XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
+      KeyCode code = scratch_keycode;
+
+        usleep(90 * 1000);
+        XTestFakeKeyEvent(dpy, code, True, 0);
+        XFlush(dpy);
+
+        usleep(90 * 1000);
+        XTestFakeKeyEvent(dpy, code, False, 0);
+        XFlush(dpy);
+      }
+
+  //revert scratch keycode
   {
-
-    //find the keysym for the given unicode char
-    //map that keysym to our previous unmapped keycode
-    //click that keycode/'button' with our keysym on it
-    KeySym sym = XStringToKeysym(strings[i]);
-  //  KeySym keysym_list[] = { sym };
-//    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-   KeySym keysym_list[2] = { sym, sym  };
-XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
- KeyCode code = scratch_keycode;
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, True, 0);
-    XFlush(dpy);
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, False, 0);
-    XFlush(dpy);
+    KeySym keysym_list[] = { 0 };
+    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
   }
+
+  usleep(100 * 1000);
+
+
+
+}
+/*
+void UnicodeTochka(Display *dpy){
+
+  //my test string already transformed into unicode
+  //ready to be consumed by XStringToKeysym
+  const char *strings[] = {
+	  "U002E", //'.'
+      "U0020", //' '
+  };
+  int arraysize = 2;
+
+  KeySym *keysyms = NULL;
+  int keysyms_per_keycode = 0;
+  int scratch_keycode = 0; // Scratch space for temporary keycode bindings
+  int keycode_low, keycode_high;
+  XDisplayKeycodes(dpy, &keycode_low, &keycode_high);
+  keysyms = XGetKeyboardMapping(dpy, keycode_low, keycode_high - keycode_low, &keysyms_per_keycode);
+
+ int i;
+  for (i = keycode_low; i <= keycode_high; i++)
+  {
+    int j = 0;
+    int key_is_empty = 1;
+    for (j = 0; j < keysyms_per_keycode; j++)
+    {
+      int symindex = (i - keycode_low) * keysyms_per_keycode + j;
+      if(keysyms[symindex] != 0) {
+        key_is_empty = 0;
+      } else {
+        break;
+      }
+    }
+    if(key_is_empty) {
+      scratch_keycode = i;
+      break;
+    }
+  }
+  XFree(keysyms);
+  XFlush(dpy);
+
+  usleep(200 * 1000);
+
+  for (int i = 0; i < arraysize; i++){
+
+      KeySym sym = XStringToKeysym(strings[i]);
+      KeySym keysym_list[2] = { sym, sym  };
+      XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
+      KeyCode code = scratch_keycode;
+
+        usleep(90 * 1000);
+        XTestFakeKeyEvent(dpy, code, True, 0);
+        XFlush(dpy);
+
+        usleep(90 * 1000);
+        XTestFakeKeyEvent(dpy, code, False, 0);
+        XFlush(dpy);
+      }
 
   //revert scratch keycode
   {
@@ -459,7 +537,7 @@ XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
   usleep(100 * 1000);
 
 }
-
+*/
 /*Очистить апплет*/
 void ClearLog(){
 	Log("Чистка апплета");

@@ -62,35 +62,19 @@ void Znak::obrabotka(int chr, Clovo *clovo){
         if(this->fProbel){
             this->ProbelClear();
             key_del(this->display);    
-            key_del(this->display);/*
-            Log("Добавление пробела после знака припенания");            
-            string cmdf="echo -n \"";
-            if(chr==47)cmdf.append(". ");
-            if(chr==33)cmdf.append("! ");
-            if(chr==38)cmdf.append("? ");
-            cmdf.append("\" |xclip -selection c");
-            key_pavse(cmdf.c_str(), display);  
-            Log("END.Добавление пробела после знака припенания");            
-            */
+            key_del(this->display);
             Log("Добавление пробела после знака припенания");            
             
- 	
-            if(chr==47) UnicodeTochka(this->display);
-                
-            if(chr==33) UnicodeVosklik(this->display);
-            if(chr==38) UnicodeVopros(this->display);
+            if(chr==47) InputUnicodeKeyPress(this->display, TOCHKA);
+            if(chr==33) InputUnicodeKeyPress(this->display, VOSKLIK);
+            if(chr==38) InputUnicodeKeyPress(this->display, VOPROS);
             
-            Log("END.Добавление пробела после знака припенания");            
             return;
         }
         else {
             if (clovo->Count()<2)
                 return;
-            UnicodeProbel(this->display);/*
-            string cmdf="echo -n \"";
-            cmdf.append(" ");
-            cmdf.append("\" |xclip -selection c");
-            key_pavse(cmdf.c_str(), display);*/                
+            InputUnicodeKeyPress(this->display, PROBEL);       
             return;
         }
     }
@@ -101,28 +85,15 @@ void Znak::bolch(int i, Clovo *clovo){
     key_del(this->display);
     string temp;
     if(i==60){
-       UnicodeB(this->display);
-    } else {
-        
-    
-    
-    temp+=clovo->alfavideng[i];
-  //  temp+=clovo->alfavideng[i];
+       InputUnicodeKeyPress(this->display, BYKVA); // ввода буквы Ю
     }
-    //Log(temp);
+    else {  
+       temp+=clovo->alfavideng[i];
+   }
     press_keys(temp.c_str(), this->display);
-    //XFlush(this->display);
-    Log("END Замена большой буквы строчной");/*
-    char r[2]={0,0};
-    *r=clovo->alfavid[i];
-    char buf[4];
-    cp1251_to_utf8(r, buf);
-    string cmdf="echo -n \"";
-    cmdf.append(buf);
-    cmdf.append("\" |xclip -selection c");
-    key_del(display);
-    key_pavse(cmdf.c_str(), display); */ 
-}
+    Log("END Замена большой буквы строчной");
+  }
+
 
 /*Преобразование заглавной буквы строчной.*/
 void Znak::Uppad(Clovo *clovo){

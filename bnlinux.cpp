@@ -164,6 +164,7 @@ void bnlinux::Add(){
 	if(this->orfo)
 		if(clovo->Count()>1){
 			Log("Слово можно добавлять");
+			command_shell("play /opt/bnlinux/local/sound/info/orfo_add_start.wav 2>/dev/null");//				2>/dev/null
 			info("Ждите...");
 			clovo->clov+=clovo->alfavid[1];
 			listrus.push_back(clovo->clov);
@@ -176,6 +177,7 @@ void bnlinux::Add(){
 			}
 			file.close();
 			info("Добавлено!");
+			command_shell("play /opt/bnlinux/local/sound/info/orfo_add_finish.wav 2>/dev/null");
 			Log("Слово добавил");
 			}
 	

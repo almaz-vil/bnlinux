@@ -54,7 +54,12 @@ bool ListBox_ony::Select(int n, Clovo *clovo){
 }
 
 std::string ListBox_ony::ClovoPrintUTFS(int n,  std::string sn){
-	return sn;
+	char buf[4], in[2] = {0, 0};
+    *in = sn[n];
+    cp1251_to_utf8(in, buf);
+    string s;
+    s.append(buf);
+    return s;
 }
 
 void ListBox_ony::ClearOn(){
