@@ -1,5 +1,10 @@
 {
     "uuid": "bnlinux@bnabor.ru",
     "name": "Applet for bnlinux",
-    "description": "Служит для визуализации списка слов и др. информации программы bnlinux"
+    "original-authors": [
+        "almaz-vil@list.ru"
+    ],
+    "url": "https://github.com/almaz-vil/bnlinux",
+    "version": 0.6,
+    "description": "Служит для визуализации информации программы bnlinux, которая упростить  Вашу  работу с клавиатурой при наборе различных текстов. Подробнее man bnlinux"
 }

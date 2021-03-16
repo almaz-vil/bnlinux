@@ -46,7 +46,7 @@ public:
     ~bnlinux();
     void Print(int key, Lang lang = RUS) override;
     void Reshim(struct arguments args);
-    void Add();
+    void Add() ;
 };
 
 
