@@ -44,6 +44,12 @@
 #include<iostream>
 #include <iostream>
 
+
+#include <fcntl.h>
+#include <linux/input.h>
+
+#include <dirent.h>
+
 #ifndef TYPEE
 #include "typee.h"
 #endif
@@ -119,22 +125,23 @@ void usage();
 void process_command_line_arguments(int argc, char **argv)
 {
   struct option long_options[] = {
-    {"bn",        no_argument,       0, 'b'},//Список слов (БН)
-    {"orfo",      no_argument,       0, 'f'},//Орфо, реакция на опечатку
-    {"sound",     no_argument,       0, 's'}, //Звуковая клавиатура
-    {"shift",     no_argument,       0, 'p'},//Залипание Shift
-    {"znak",      no_argument,       0, 'z'}, //Реакция на знаки припенания
-    {"kill",      no_argument,       0, 'k'},
-    {"device",    required_argument, 0, 'd'},
-    {"help",      no_argument,       0, '?'},
-    {"version",      no_argument,       0, 'v'},
+    {"bn",              no_argument,       0, 'b'},//Список слов (БН)
+    {"orfo",            no_argument,       0, 'f'},//Орфо, реакция на опечатку
+    {"sound",           no_argument,       0, 's'}, //Звуковая клавиатура
+    {"shift",           no_argument,       0, 'p'},//Залипание Shift
+    {"znak",            no_argument,       0, 'z'}, //Реакция на знаки припенания
+    {"kill",            no_argument,       0, 'k'},
+    {"device",          required_argument, 0, 'd'},
+    {"name_device",     required_argument, 0, 'n'},
+    {"help",            no_argument,       0, '?'},
+    {"version",         no_argument,       0, 'v'},
     {0}
   };
   
   int c;
   int option_index;
   
-  while ((c = getopt_long(argc, argv, "rbfspzkd:?v", long_options, &option_index)) != -1)
+  while ((c = getopt_long(argc, argv, "rbfspzkdn:?v", long_options, &option_index)) != -1)
   {
     switch (c) 
     {
@@ -145,9 +152,40 @@ void process_command_line_arguments(int argc, char **argv)
       case 'p': args.shift = true;          break;
       case 'z': args.znak = true;           break;
       case 'k': args.kill = true;           break;
+      case 'n': {
+                std::string s;
+                s.append(optarg);
+                struct dirent **namelist;
+                int n= scandir("/dev/input/", &namelist, 0, alphasort);
+                if (n < 0)
+                    perror("scandir");
+                else {
+                    if(s.length()==0)   printf("*Список устройств*\n");         
+                    while(n--) {
+                      std::string namefile;
+                      namefile.append(namelist[n]->d_name);
+                      if (namefile.find("event")!=std::string::npos){
+                        if(s.length()==0){
+                              ListDriver(namelist[n]->d_name);
+                              } 
+                          else{
+                            if(FindDriver(namelist[n]->d_name,optarg)){
+                                std::string f="/dev/input/";
+                                f.append(namelist[n]->d_name);
+                                args.device.append(f);
+                                break;   
+                              }
+                            }
+                      }         
+                    } 
+                   if(s.length()==0)    printf("\n******************\n");  
+                }      
+                if (args.device.length()==0)
+                  exit(EXIT_SUCCESS);
+                break;}
       case 'd': args.device = optarg;       break;
       case '?': usage(); exit(EXIT_SUCCESS);
-      case 'v': fprintf(stderr,"Version:0.0.6\n"); exit(EXIT_SUCCESS);
+      case 'v': fprintf(stderr,"Version:0.0.7\n"); exit(EXIT_SUCCESS);
       default : usage(); exit(EXIT_FAILURE);
     }
   } // while
@@ -170,6 +208,7 @@ void usage()
 "  -r,\tВключение переключение режимов без перезапуска"
 "  -k,\tзавершает программу bnlinux\n"
 "  -d,\tустройство ввода\n"
+"  -n,\tимя устройство ввода или -n\"\" вывод списка устройств ввода\n"
 "  -?,\tэта справка пробнее (man bnlinux)\n"
   );
 }

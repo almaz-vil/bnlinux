@@ -35,6 +35,11 @@ void UnicodeVosklik(Display *dpy);
 void UnicodeVopros(Display *dpy);
 void UnicodeProbel(Display *dpy);
 */
+/*Устройство ввода по имени поиск*/
+std::string ReadInputDir(char *name);
+bool FindDriver(char *file, char*find);
+/*Список устройств ввода*/
+void ListDriver(char *file);
 void info(std::string s);
 void command_shell(std::string s);
 void info(arguments args);

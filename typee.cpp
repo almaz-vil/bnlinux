@@ -11,9 +11,12 @@
 #include "clovo.h"
 #endif
 
+#include <fcntl.h>
+#include <linux/input.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <dirent.h>
 #include <time.h>
 #include <sys/time.h>
 #include <sys/times.h>
@@ -123,421 +126,6 @@ void InputUnicodeKeyPress(Display *dpy, PRESS press){
 
 
 }
-/*
-void UnicodeTochka(Display *dpy){
-
-  //my test string already transformed into unicode
-  //ready to be consumed by XStringToKeysym
-  const char *strings[] = {
-	  "U002E", //'.'
-      "U0020", //' '
-  };
-  int arraysize = 2;
-
-  KeySym *keysyms = NULL;
-  int keysyms_per_keycode = 0;
-  int scratch_keycode = 0; // Scratch space for temporary keycode bindings
-  int keycode_low, keycode_high;
-  XDisplayKeycodes(dpy, &keycode_low, &keycode_high);
-  keysyms = XGetKeyboardMapping(dpy, keycode_low, keycode_high - keycode_low, &keysyms_per_keycode);
-
- int i;
-  for (i = keycode_low; i <= keycode_high; i++)
-  {
-    int j = 0;
-    int key_is_empty = 1;
-    for (j = 0; j < keysyms_per_keycode; j++)
-    {
-      int symindex = (i - keycode_low) * keysyms_per_keycode + j;
-      if(keysyms[symindex] != 0) {
-        key_is_empty = 0;
-      } else {
-        break;
-      }
-    }
-    if(key_is_empty) {
-      scratch_keycode = i;
-      break;
-    }
-  }
-  XFree(keysyms);
-  XFlush(dpy);
-
-  usleep(200 * 1000);
-
-  for (int i = 0; i < arraysize; i++){
-
-      KeySym sym = XStringToKeysym(strings[i]);
-      KeySym keysym_list[2] = { sym, sym  };
-      XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
-      KeyCode code = scratch_keycode;
-
-        usleep(90 * 1000);
-        XTestFakeKeyEvent(dpy, code, True, 0);
-        XFlush(dpy);
-
-        usleep(90 * 1000);
-        XTestFakeKeyEvent(dpy, code, False, 0);
-        XFlush(dpy);
-      }
-
-  //revert scratch keycode
-  {
-    KeySym keysym_list[] = { 0 };
-    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-  }
-
-  usleep(100 * 1000);
-
-}
-
-void UnicodeVosklik(Display *dpy){
-
-  //my test string already transformed into unicode
-  //ready to be consumed by XStringToKeysym
-  const char *strings[] = {
-	  "U0021", //'!'
-      "U0020", //' '
-  };
-
-  KeySym *keysyms = NULL;
-  int keysyms_per_keycode = 0;
-  int scratch_keycode = 0; // Scratch space for temporary keycode bindings
-  int keycode_low, keycode_high;
-  //get the range of keycodes usually from 8 - 255
-  XDisplayKeycodes(dpy, &keycode_low, &keycode_high);
-  //get all the mapped keysyms available
-  keysyms = XGetKeyboardMapping(
-    dpy, 
-    keycode_low, 
-    keycode_high - keycode_low, 
-    &keysyms_per_keycode);
-
-  //find unused keycode for unmapped keysyms so we can 
-  //hook up our own keycode and map every keysym on it
-  //so we just need to 'click' our once unmapped keycode
-  int i;
-  for (i = keycode_low; i <= keycode_high; i++)
-  {
-    int j = 0;
-    int key_is_empty = 1;
-    for (j = 0; j < keysyms_per_keycode; j++)
-    {
-      int symindex = (i - keycode_low) * keysyms_per_keycode + j;
-      // test for debugging to looking at those value
-      // KeySym sym_at_index = keysyms[symindex];
-      // char *symname;
-      // symname = XKeysymToString(keysyms[symindex]);
-
-      if(keysyms[symindex] != 0) {
-        key_is_empty = 0;
-      } else {
-        break;
-      }
-    }
-    if(key_is_empty) {
-      scratch_keycode = i;
-      break;
-    }
-  }
-  XFree(keysyms);
-  XFlush(dpy);
-
-  usleep(200 * 1000);
-
-  int arraysize = 2;
-  for (int i = 0; i < arraysize; i++)
-  {
-
-    //find the keysym for the given unicode char
-    //map that keysym to our previous unmapped keycode
-    //click that keycode/'button' with our keysym on it
-    KeySym sym = XStringToKeysym(strings[i]);
-  //  KeySym keysym_list[] = { sym };
-//    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-   KeySym keysym_list[2] = { sym, sym  };
-XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
- KeyCode code = scratch_keycode;
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, True, 0);
-    XFlush(dpy);
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, False, 0);
-    XFlush(dpy);
-  }
-
-  //revert scratch keycode
-  {
-    KeySym keysym_list[] = { 0 };
-    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-  }
-
-  usleep(100 * 1000);
-
-}
-
-
-void UnicodeB(Display *dpy){
-
-  //my test string already transformed into unicode
-  //ready to be consumed by XStringToKeysym
-  const char *strings[] = {
-	  "U0411", //'.'
-      
-  };
-
-  KeySym *keysyms = NULL;
-  int keysyms_per_keycode = 0;
-  int scratch_keycode = 0; // Scratch space for temporary keycode bindings
-  int keycode_low, keycode_high;
-  //get the range of keycodes usually from 8 - 255
-  XDisplayKeycodes(dpy, &keycode_low, &keycode_high);
-  //get all the mapped keysyms available
-  keysyms = XGetKeyboardMapping(
-    dpy, 
-    keycode_low, 
-    keycode_high - keycode_low, 
-    &keysyms_per_keycode);
-
-  //find unused keycode for unmapped keysyms so we can 
-  //hook up our own keycode and map every keysym on it
-  //so we just need to 'click' our once unmapped keycode
-  int i;
-  for (i = keycode_low; i <= keycode_high; i++)
-  {
-    int j = 0;
-    int key_is_empty = 1;
-    for (j = 0; j < keysyms_per_keycode; j++)
-    {
-      int symindex = (i - keycode_low) * keysyms_per_keycode + j;
-      // test for debugging to looking at those value
-      // KeySym sym_at_index = keysyms[symindex];
-      // char *symname;
-      // symname = XKeysymToString(keysyms[symindex]);
-
-      if(keysyms[symindex] != 0) {
-        key_is_empty = 0;
-      } else {
-        break;
-      }
-    }
-    if(key_is_empty) {
-      scratch_keycode = i;
-      break;
-    }
-  }
-  XFree(keysyms);
-  XFlush(dpy);
-
-  usleep(200 * 1000);
-
-  int arraysize = 1;
-  for (int i = 0; i < arraysize; i++)
-  {
-
-    //find the keysym for the given unicode char
-    //map that keysym to our previous unmapped keycode
-    //click that keycode/'button' with our keysym on it
-    KeySym sym = XStringToKeysym(strings[i]);
-  //  KeySym keysym_list[] = { sym };
-//    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-   KeySym keysym_list[2] = { sym, sym  };
-XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
- KeyCode code = scratch_keycode;
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, True, 0);
-    XFlush(dpy);
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, False, 0);
-    XFlush(dpy);
-  }
-
-  //revert scratch keycode
-  {
-    KeySym keysym_list[] = { 0 };
-    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-  }
-
-  usleep(100 * 1000);
-}
-
-
-void UnicodeVopros(Display *dpy){
-
-  //my test string already transformed into unicode
-  //ready to be consumed by XStringToKeysym
-  const char *strings[] = {
-	  "U003F", //'.'
-      "U0020", //' '
-  };
-
-  KeySym *keysyms = NULL;
-  int keysyms_per_keycode = 0;
-  int scratch_keycode = 0; // Scratch space for temporary keycode bindings
-  int keycode_low, keycode_high;
-  //get the range of keycodes usually from 8 - 255
-  XDisplayKeycodes(dpy, &keycode_low, &keycode_high);
-  //get all the mapped keysyms available
-  keysyms = XGetKeyboardMapping(
-    dpy, 
-    keycode_low, 
-    keycode_high - keycode_low, 
-    &keysyms_per_keycode);
-
-  //find unused keycode for unmapped keysyms so we can 
-  //hook up our own keycode and map every keysym on it
-  //so we just need to 'click' our once unmapped keycode
-  int i;
-  for (i = keycode_low; i <= keycode_high; i++)
-  {
-    int j = 0;
-    int key_is_empty = 1;
-    for (j = 0; j < keysyms_per_keycode; j++)
-    {
-      int symindex = (i - keycode_low) * keysyms_per_keycode + j;
-      // test for debugging to looking at those value
-      // KeySym sym_at_index = keysyms[symindex];
-      // char *symname;
-      // symname = XKeysymToString(keysyms[symindex]);
-
-      if(keysyms[symindex] != 0) {
-        key_is_empty = 0;
-      } else {
-        break;
-      }
-    }
-    if(key_is_empty) {
-      scratch_keycode = i;
-      break;
-    }
-  }
-  XFree(keysyms);
-  XFlush(dpy);
-
-  usleep(200 * 1000);
-
-  int arraysize = 2;
-  for (int i = 0; i < arraysize; i++)
-  {
-
-    //find the keysym for the given unicode char
-    //map that keysym to our previous unmapped keycode
-    //click that keycode/'button' with our keysym on it
-    KeySym sym = XStringToKeysym(strings[i]);
-  //  KeySym keysym_list[] = { sym };
-//    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-   KeySym keysym_list[2] = { sym, sym  };
-XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
- KeyCode code = scratch_keycode;
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, True, 0);
-    XFlush(dpy);
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, False, 0);
-    XFlush(dpy);
-  }
-
-  //revert scratch keycode
-  {
-    KeySym keysym_list[] = { 0 };
-    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-  }
-
-  usleep(100 * 1000);
-}
-
-void UnicodeProbel(Display *dpy){
-
-  //my test string already transformed into unicode
-  //ready to be consumed by XStringToKeysym
-  const char *strings[] = {
-      "U0020", //' '
-  };
-
-  KeySym *keysyms = NULL;
-  int keysyms_per_keycode = 0;
-  int scratch_keycode = 0; // Scratch space for temporary keycode bindings
-  int keycode_low, keycode_high;
-  //get the range of keycodes usually from 8 - 255
-  XDisplayKeycodes(dpy, &keycode_low, &keycode_high);
-  //get all the mapped keysyms available
-  keysyms = XGetKeyboardMapping(
-    dpy, 
-    keycode_low, 
-    keycode_high - keycode_low, 
-    &keysyms_per_keycode);
-
-  //find unused keycode for unmapped keysyms so we can 
-  //hook up our own keycode and map every keysym on it
-  //so we just need to 'click' our once unmapped keycode
-  int i;
-  for (i = keycode_low; i <= keycode_high; i++)
-  {
-    int j = 0;
-    int key_is_empty = 1;
-    for (j = 0; j < keysyms_per_keycode; j++)
-    {
-      int symindex = (i - keycode_low) * keysyms_per_keycode + j;
-      // test for debugging to looking at those value
-      // KeySym sym_at_index = keysyms[symindex];
-      // char *symname;
-      // symname = XKeysymToString(keysyms[symindex]);
-
-      if(keysyms[symindex] != 0) {
-        key_is_empty = 0;
-      } else {
-        break;
-      }
-    }
-    if(key_is_empty) {
-      scratch_keycode = i;
-      break;
-    }
-  }
-  XFree(keysyms);
-  XFlush(dpy);
-
-  usleep(200 * 1000);
-
-  int arraysize = 1;
-  for (int i = 0; i < arraysize; i++)
-  {
-
-    //find the keysym for the given unicode char
-    //map that keysym to our previous unmapped keycode
-    //click that keycode/'button' with our keysym on it
-    KeySym sym = XStringToKeysym(strings[i]);
-  //  KeySym keysym_list[] = { sym };
-//    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-   KeySym keysym_list[2] = { sym, sym  };
-XChangeKeyboardMapping(dpy, scratch_keycode, 2, keysym_list, 1);
- KeyCode code = scratch_keycode;
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, True, 0);
-    XFlush(dpy);
-
-    usleep(90 * 1000);
-    XTestFakeKeyEvent(dpy, code, False, 0);
-    XFlush(dpy);
-  }
-
-  //revert scratch keycode
-  {
-    KeySym keysym_list[] = { 0 };
-    XChangeKeyboardMapping(dpy, scratch_keycode, 1, keysym_list, 1);
-  }
-
-  usleep(100 * 1000);
-
-}
-*/
 /*Очистить апплет*/
 void ClearLog(){
 	Log("Чистка апплета");
@@ -810,4 +398,70 @@ void Log(std::string msg, int key, bool error){
    
    
 //   Log(msg);
+}
+
+std::string ReadInputDir(char *name){
+  std::string s;
+  s.append(name);
+  printf("\nFIND: %s\n", name);
+     struct dirent **namelist;
+    int n;
+    n = scandir("/dev/input/", &namelist, 0, alphasort);
+    std::string res="";
+    if (n < 0)
+        perror("scandir");
+    else {
+
+        while(n--) {
+          
+            std::string namefile;
+            namefile.append(namelist[n]->d_name);
+            if (namefile.find("event")!=std::string::npos)
+              {
+                  if(strlen(name)==0){
+              printf("*Список устройств*");
+              ListDriver(namelist[n]->d_name);
+              printf("******************");
+            }
+            if(FindDriver(namelist[n]->d_name, name));
+              {
+                std::string f="/dev/input/";
+                f.append(namelist[n]->d_name);
+                res.append(f);
+                break;   
+              }
+          }         
+        }
+
+        
+    }
+    return res;
+}
+
+bool FindDriver(char *filenam, char*find){
+  std::string event = "/dev/input/";
+  event.append(filenam);
+    int fd = open(event.c_str(), O_RDONLY);
+    char name[256];
+    if(ioctl(fd, EVIOCGNAME(sizeof(name) - 1), name)){
+      if(strcmp(find, name)==0){
+         close(fd);
+        return true;
+      }
+    }
+    close(fd);
+    return false;
+}
+
+void ListDriver(char *filenam){
+  std::string event = "/dev/input/";
+  event.append(filenam);
+    int fd = open(event.c_str(), O_RDONLY);
+    char name[256];
+    if(ioctl(fd, EVIOCGNAME(sizeof(name) - 1), name)){
+      printf("\n file=%s \t name= %s ", event.c_str() , name);
+      
+    }
+    close(fd);
+    return; 
 }
