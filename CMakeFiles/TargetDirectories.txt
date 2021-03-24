@@ -1,3 +1,0 @@
-/home/user/BNLinux/CMakeFiles/rebuild_cache.dir
-/home/user/BNLinux/CMakeFiles/bnlinux.dir
-/home/user/BNLinux/CMakeFiles/edit_cache.dir

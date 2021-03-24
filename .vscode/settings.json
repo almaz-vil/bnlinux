@@ -11,7 +11,9 @@
       "sstream": "cpp",
       "typeinfo": "cpp",
       "fstream": "cpp",
-      "cstdlib": "cpp"
+      "cstdlib": "cpp",
+      "cmath": "cpp",
+      "system_error": "cpp"
    }
     
 }
