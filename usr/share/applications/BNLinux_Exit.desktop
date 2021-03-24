@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1
+Type=Application
+Name=BNLinux_Exit
+Comment=Завершение программы bnlinux 
+Path=/opt/bnlinux/bin
+Exec=pkexec /opt/bnlinux/bin/bnlinux -k
+Icon=/opt/bnlinux/icon/iconexit.ico
+Categories=TextTools
+Terminal=false

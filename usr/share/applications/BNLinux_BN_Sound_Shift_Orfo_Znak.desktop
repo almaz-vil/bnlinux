@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1
+Type=Application
+Name=BNLinux_BN_Sound_Shift_Orfo_Znak
+Comment=БН+Звуковая клавиатура + режим SHIFT + режим ОРФО + режим ЗНАК
+Path=/opt/bnlinux/bin
+Exec=pkexec /opt/bnlinux/bin/bnlinux -b -s -p -f -z
+Icon=/opt/bnlinux/icon/iconsound.ico
+Categories=TextTools
+Terminal=false

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=BNLinux
+Comment=Проект Быстрый набор
+Icon=/opt/bnlinux/icon/iconbn.ico
+Type=Directory
+X-Ubuntu-Gettext-Domain=gnome-menus-3.0
