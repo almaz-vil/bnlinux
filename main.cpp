@@ -45,6 +45,7 @@
 #include <iostream>
 
 
+//#include <algorithm>    // std::find
 #include <fcntl.h>
 #include <linux/input.h>
 
@@ -122,6 +123,42 @@ struct arguments args = {0};  // default all args to 0x0 or ""
 
 void usage();
 
+void InfoIcon(std::string icon, bool writeicon){
+writeicon ? printf("Ярлык %s обнoвлён!\n", icon.c_str()):printf("Ярлык %s не доступен!\n", icon.c_str());
+}
+
+bool WriteIcon(std::string name, const char* namefile, std::string comd){
+    if (access(namefile,R_OK)==0)
+          {
+             std::ifstream file(namefile);
+             std::string str;        
+             std::vector <std::string> temp;
+             while(getline(file,str)) 
+              {      
+               	size_t up=str.find(comd);
+		          	if((up!= std::string::npos)&&(up==0)){
+                    comd.append(" -n \"");
+                    comd.append(name);
+                    comd.append("\"");  
+                    str.clear();
+                    str.append(comd);
+                }                  
+                temp.push_back(str);
+              }
+              file.close();           
+              std::ofstream filew;
+              filew.open(namefile);
+              for(int i=0;i<temp.size();++i){
+                filew<<temp[i]<<std::endl;
+              }
+              filew.close();
+              return true;
+          }else
+          {
+            return false;
+          }
+        
+}
 void process_command_line_arguments(int argc, char **argv)
 {
   struct option long_options[] = {
@@ -141,7 +178,7 @@ void process_command_line_arguments(int argc, char **argv)
   int c;
   int option_index;
   
-  while ((c = getopt_long(argc, argv, "rbfspzkdn:?v", long_options, &option_index)) != -1)
+  while ((c = getopt_long(argc, argv, "rbfspzikdn:?v", long_options, &option_index)) != -1)
   {
     switch (c) 
     {
@@ -152,6 +189,68 @@ void process_command_line_arguments(int argc, char **argv)
       case 'p': args.shift = true;          break;
       case 'z': args.znak = true;           break;
       case 'k': args.kill = true;           break;
+      case 'i':{//Процесс настройки ярлыков
+          #define ICON1  "/usr/share/applications/BNLinux_Sound.desktop"
+          #define ICON2  "/usr/share/applications/BNLinux_BN_Sound_Shift_Orfo_Znak.desktop"
+          #define ICON3  "/usr/share/applications/BNLinux_BN_Shift_Orfo_Znak.desktop"
+          #define ICON4  "/usr/share/applications/BNLinux_BN.desktop"
+          #define ICON5  "/usr/share/applications/BNLinux_Sound_Shift_Orfo.desktop"
+          #define ICON6  "/usr/share/applications/BNLinux_Sound_Shift.desktop"
+          printf("Этап настройки ярлыков:\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\n", ICON1, ICON2, ICON3, ICON4, ICON5, ICON6);
+          std::vector<int> id;
+          struct dirent **namelist;
+          int n= scandir("/dev/input/", &namelist, 0, alphasort);
+          if (n < 0)
+              perror("scandir");
+          else {
+                printf("Список доступных устройств:\n");         
+                while(n--) {
+                  std::string namefile;
+                  namefile.append(namelist[n]->d_name);
+                  if (namefile.find("event")!=std::string::npos){
+                    id.push_back(n);
+                    printf("%d.\t",n);
+                    ListDriver(namelist[n]->d_name);         
+                  }         
+                } 
+                printf("\n******************\n");  
+              }      
+    
+          std::cout << "Введите номер выбранного устройства: ";
+          int b = 0;
+          std::cin >> b; 
+          std::string event = "/dev/input/";
+          bool f=false;
+          for(int i=0; i<id.size();  i++){
+              if(b==id[i]){f=true; break;}
+          }
+          if(f){
+            event.append( namelist[b]->d_name);
+            }
+          else
+          {
+            printf("\nОшибка, выбора устройства! Ваши ярлыки не были настроены!\n");
+            exit(EXIT_SUCCESS);
+        
+          }
+          
+         
+          int fd = open(event.c_str(), O_RDONLY);
+          char name[256];
+          if(ioctl(fd, EVIOCGNAME(sizeof(name) - 1), name)){
+            
+          }
+          close(fd);
+          printf("\nУстройство %s выбрано!\n\n" , name); 
+          InfoIcon(ICON1, WriteIcon(name, ICON1, "Exec=pkexec /opt/bnlinux/bin/bnlinux -s"));
+          InfoIcon(ICON2, WriteIcon(name, ICON2, "Exec=pkexec /opt/bnlinux/bin/bnlinux -b -s -p -f -z"));
+          InfoIcon(ICON3, WriteIcon(name, ICON3, "Exec=pkexec /opt/bnlinux/bin/bnlinux -b -p -f -z"));
+          InfoIcon(ICON4, WriteIcon(name, ICON4, "Exec=pkexec /opt/bnlinux/bin/bnlinux -b"));
+          InfoIcon(ICON5, WriteIcon(name, ICON5, "Exec=pkexec /opt/bnlinux/bin/bnlinux -s -p -f"));
+          InfoIcon(ICON6, WriteIcon(name, ICON6, "Exec=pkexec /opt/bnlinux/bin/bnlinux -s -p"));
+          printf("\nСпасибо! Ваши ярлыки готовы к использованию!\n");
+        exit(EXIT_SUCCESS);
+        }
       case 'n': {
                 std::string s;
                 s.append(optarg);
@@ -160,7 +259,7 @@ void process_command_line_arguments(int argc, char **argv)
                 if (n < 0)
                     perror("scandir");
                 else {
-                    if(s.length()==0)   printf("*Список устройств*\n");         
+                    if(s.length()==0)   printf("Список устройств:\n");         
                     while(n--) {
                       std::string namefile;
                       namefile.append(namelist[n]->d_name);
@@ -191,25 +290,29 @@ void process_command_line_arguments(int argc, char **argv)
   } // while
   
   while(optind < argc)
-    error(0, 0, "Non-option argument %s", argv[optind++]);
+    error(0, 0, "Нет опции у аргумента %s", argv[optind++]);
 }
 
 void usage()
 {
   fprintf(stderr,
-"Usage: bnlinux [OPTION]...\n"
-"bnlinux\n"
-"Для выхода необходимо нажать <Pause> и затем <F12>\nвкл/выкл режимов ЗНАК-<F9> SHIFT-<F8> ОРФО-<F7> ЗК-<F6> БН-<F5>\n\n"
-"  -b,\tактивация режима автозавершение слов (БН)\n"
-"  -f,\tактивация режима опечатка (ОРФО)\n"
-"  -s,\tактивация режима звуковая клавиатура (ЗК)\n"
-"  -p,\tактивация режима залипания <Shift>(ввода знаков ! и т.д.) (SHIFT)\n"
-"  -z,\tактивация режима реакция на .!? (ЗНАК)\n"  
-"  -r,\tВключение переключение режимов без перезапуска"
-"  -k,\tзавершает программу bnlinux\n"
-"  -d,\tустройство ввода\n"
-"  -n,\tимя устройство ввода или -n\"\" вывод списка устройств ввода\n"
-"  -?,\tэта справка пробнее (man bnlinux)\n"
+"Использование: sudo bnlinux \e[1m[-b] [-r] [-f] [-s] [-p] [-z] [-d|-n] [-v] [-?]\e[0m    \n"
+"\e[4mПрограмме для доступа к устройству ввода необходимы привилегии sudo.\e[0m           \n"
+"\nКраткая справка:                                                                   \n"
+"Для выхода необходимо нажать <Pause> и затем <F12>                                       \n"
+"При указании аргумента \e[1m-r\e[0m вкл/выкл режимов ЗНАК-<F9> SHIFT-<F8> ОРФО-<F7> ЗК-<F6> БН-<F5>\n"
+"  \e[1m-b\e[0m\t\tактивация режима автозавершение слов (БН)                              \n"
+"  \e[1m-f\e[0m\t\tактивация режима опечатка (ОРФО)                                       \n"
+"  \e[1m-s\e[0m\t\tактивация режима звуковая клавиатура (ЗК)                              \n"
+"  \e[1m-p\e[0m\t\tактивация режима залипания <Shift>(ввода знаков ! и т.д.) (SHIFT)      \n"
+"  \e[1m-z\e[0m\t\tактивация режима реакция на .!? (ЗНАК)                                 \n"  
+"  \e[1m-r\e[0m\t\tвключение переключение режимов без перезапуска                         \n"
+"  \e[1m-k\e[0m\t\tзавершение программы                                                   \n"
+"  \e[1m-d\e[0m\t\tустройство ввода                                                       \n"
+"  \e[1m-n\e[0m\t\tимя устройство ввода или указание ключа                                \n"
+"  \e[1m-n \"\"\e[0m\t\tс опцией-пустая строка, выводит списка устройств ввода            \n"
+"  \e[1m-v\e[0m\t\tвывод номер версии                                                     \n"
+"  \e[1m-?\e[0m\t\tпробнее смотрите встроенную в пакет документацию (man bnlinux)         \n\e[0m"
   );
 }
 

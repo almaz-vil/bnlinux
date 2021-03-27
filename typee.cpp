@@ -459,7 +459,7 @@ void ListDriver(char *filenam){
     int fd = open(event.c_str(), O_RDONLY);
     char name[256];
     if(ioctl(fd, EVIOCGNAME(sizeof(name) - 1), name)){
-      printf("\n file=%s \t name= %s ", event.c_str() , name);
+      printf("file=%s \t name= %s \n", event.c_str() , name);
       
     }
     close(fd);
